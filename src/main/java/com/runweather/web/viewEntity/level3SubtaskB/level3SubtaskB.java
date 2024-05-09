@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class level3SubtaskB {
     private ArrayList<Region> regions;
     private int yearPeriod;
-    private int[] startingYears;
+    private int startingYears;
     private double minAverageChange;
     private double maxAverageChange;
     private long minPopulation;
@@ -33,11 +33,11 @@ public class level3SubtaskB {
         this.yearPeriod = yearPeriod;
     }
 
-    public int[] getStartingYears() {
+    public int getStartingYears() {
         return startingYears;
     }
 
-    public void setStartingYears(int[] startingYears) {
+    public void setStartingYears(int startingYears) {
         this.startingYears = startingYears;
     }
 

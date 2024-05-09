@@ -10,8 +10,9 @@
 </head>
 <body>
 <!-- headers-->
-<div class="headerbox">
+<div class="header">
     <nav class="navbar navbar-expand-lg navbar-dark text-bg-secondary" aria-label="Offcanvas navbar large">
+        <img th:src="@{/sun.png}" alt="Bee Icon">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cloud-fill" viewBox="0 0 16 16">
@@ -75,7 +76,7 @@
                 <label for="">Region</label>
 
 
-                <select id="region" name="region">
+                <select id="" name="region">
                      <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}"
                             th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}">
                         <button> <a th:href="@{/level3SubtaskB(region=${selectedRegion})}"></a></button>
@@ -95,39 +96,29 @@
 
             <!-- Modal -->
 
-            <div class="modal fade list-items" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+            <div class="feature-list modal fade list-items" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg"> <!-- Increased modal size for better interaction -->
                     <div class="modal-content">
-                        <div class="modal-header ">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Features List</h1>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Features List</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form th:action="@{/level3SubtaskB}" th:method="get">
-
-                            <!--Script content-->
-
-                            <div class="box-scroll">
-                                <h3 th:text="${selectedRegion}"></h3>
-
-                                <ul class="options">
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Region</label>
-
-
-                                            <select id="region" name="region">
-                                                <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}"
-                                                        th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}">
-                                                    <button> <a th:href="@{/level3SubtaskB(region=${selectedRegion})}"></a></button>
+                            <div class="modal-body">
+                                <div class="box-scroll">
+                                    <h3 th:text="${selectedRegion}"></h3>
+                                    <ul class="options">
+                                        <li>
+                                            <div class="input">
+                                                <label for="region">Region</label>
+                                                <select id="region" name="region">
+                                                    <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}"></option>
+                                                </select>
+                                            </div>
+                                        </li>
 
 
-                                                </option>
-                                            </select>
-
-                                        </div>
-                                    </li>
-
-                                    <li > <select name="selectedString" id ="selectedString" >
+                                        <li > <select name="selectedString" id ="selectedString" >
                                         <option th:if="${selectedRegion.equals('Country')}" th:each="country:${countries}"  th:text="${country.name}" th:value="${country.name}" ></option>
                                         <option th:if="${selectedRegion.equals('City')}" th:each="city:${cities}"  th:text="${city.name}" th:value="${city.name}" ></option>
                                         <option th:if="${selectedRegion.equals('State')}" th:each="state:${states}"  th:text="${state.name}" th:value="${state.name}" ></option>
@@ -143,7 +134,7 @@
                                     <li>
                                         <div class="input">
                                             <label for="">Startting Year</label>
-                                            <input  name="startingYears" id="startingYears" th:value="${#strings.listJoin(modelView.startingYears,',')}">
+                                            <input  name="startingYears" id="startingYears" th:value="${modelView.startingYears}">
                                         </div>
                                     </li>
                                     <li>
@@ -173,27 +164,20 @@
                                     <li>
                                         <div class="input">
                                             <label for="">Numbers of similar result</label>
-                                            <input type="number" name="yearPeriod" id="number" th:value="${selectedNumber}">
+                                            <input type="number" name="number" id="number" th:value="${selectedNumber}">
                                         </div>
                                     </li>
-                                </ul>
-
-
-
-
+                                    </ul>
+                                </div>
                             </div>
-
-
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
-
-
         </div>
 
 
@@ -215,17 +199,21 @@
 
 </div>
 <!-- table-->
-<main style=" height:500px " class="table" id="customers_table" th:each="table:${modelView.table}">
+<main style=" height:500px " class="table" id="customers_table" th:each="table,tableIndex:${modelView.table}">
+
     <section class="table__header" >
-        <h1>Weather Data Table</h1>
+        <h1 th:if="${tableIndex.index==0}">Average Temperature Data Table</h1>
+        <h1 th:if="${tableIndex.index==1}">Similar Rank Data Table</h1>
+
         <div>
-            <h2  th:text="${selectedString}"></h2>
+            <h2  th:text="${selectedRegion}"> <span  th:text="${selectedString}"></span></h2>
+            <span  th:text="${selectedString}"></span>
 
         </div>
 
 
     </section>
-    <section class="table__body" >
+    <section class="table__body"  >
         <table >
 
             <div class="applyData" th:if = "${table.data.length == 0} "  >
@@ -246,14 +234,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr  th:each=" row: ${table.data }" >
+                <tr  th:each=" row, rowIndex: ${table.data }" >
                     <td th:each=" cell,cellIndex: ${row }" >
-                    <span th:text="${cell}" >
+                        <span th:text="${cell}" >
 
                         </span>
                     </td>
 
-                    <td>
+
 
 
                 </tr>
@@ -263,14 +251,26 @@
             </div>
         </table>
     </section>
+
+
 </main>
-</div>
+
+
 
 
 
 
 
 <!--footer-->
+<footer class="footer"><div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+    <p>© 2024 Company, Inc. All rights reserved.</p>
+    <ul class="list-unstyled d-flex">
+        <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+        <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+        <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script th:src="@{/script.js}">
@@ -281,4 +281,5 @@
 </script>
 
 </body>
+
 </html>

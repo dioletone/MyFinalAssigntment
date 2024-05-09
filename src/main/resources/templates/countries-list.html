@@ -89,20 +89,20 @@
                         <form th:action="@{/subtaskA/countries}" th:method="get">
                         <!--Script content-->
                         <form th:action="@{/subtaskA/countries}" th:method="get"  >
+
                         <div class="box-scroll">
 
-                            <ul class="options"  th:each="country:${countries}"  >
 
-                                <li>
-                                    <div class="form-check" >
-
-                                        <input class="form-check-input" type="checkbox" name="selectedCountry"     th:value="${country.name}" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault" th:text="${country.name}" >
-
-                                        </label>
-                                    </div>
-                                </li>
-                            </ul>
+                            <div class="country-list">
+                                <ul class="options" th:id="'countryList_' + ${uniqueId}" th:each="country:${countries}">
+                                    <li>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="selectedCountry" th:value="${country.name}" th:id="'flexCheckDefault_' + ${uniqueId}">
+                                            <label class="form-check-label" th:for="'flexCheckDefault_' + ${uniqueId}" th:text="${country.name}"></label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 
 
 
@@ -228,12 +228,16 @@
 
 
 <!--footer-->
-
+<script th:src="@{/script.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script><script th:src="@{/script.js}">
     function resetFilter (path) {
         var url = '/subtaskA/countries' + path
         window.location.href = url;
     }
+
+
+
+
 </script>
 
 </body>

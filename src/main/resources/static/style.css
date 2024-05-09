@@ -1,121 +1,78 @@
-
-
-
 @media print {
- .table, .table__body {
-  overflow: visible;
-  height: auto !important;
-  width: auto !important;
- }
+    .table, .table__body {
+        overflow: visible;
+        height: auto !important;
+        width: auto !important;
+    }
 }
 
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #e0f2f1;
+}
 
-
-
-
+/* Main Table Styles */
 main.table {
-    width: 82vw;
+    width: 96%;
     height: 90vh;
-    background-color: #fff5;
+    background-color: rgba(255, 255, 255, 0.9);
     justify-content: center;
     align-items: center;
-   width: 100%  ;
-
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
-    border-radius: 3px;
-
+    border-radius: 5px;
     overflow: hidden;
+    position: relative;
+    left: 30px;
+    margin-bottom: 20px;
 }
 
 .table__header {
     width: 100%;
-    height: 10%;
-    background-color: #fff4;
+    height: 20%;
+    background-color: rgba(255, 255, 255, 0.8);
     padding: .8rem 1rem;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.table__header .input-group {
-    width: 35%;
-    height: 100%;
-    background-color: #fff5;
-    padding: 0 .8rem;
-    border-radius: 2rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: .2s;
-}
-
-.table__header .input-group:hover {
-    width: 45%;
-    background-color: #fff8;
-    box-shadow: 0 .1rem .4rem #0002;
-}
-
-.table__header .input-group img {
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-.table__header .input-group input {
-    width: 100%;
-    padding: 0 .5rem 0 .3rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
 }
 
 .table__body {
     width: 95%;
     max-height: calc(89% - 1.6rem);
     background-color: #fffb;
-
     margin: .8rem auto;
     border-radius: .6rem;
-
     overflow: auto;
     overflow: scroll;
 }
 
-
-.table__body::-webkit-scrollbar{
+/* Scrollbar Styles */
+.table__body::-webkit-scrollbar {
     width: 0.5rem;
     height: 0.5rem;
 }
 
-.table__body::-webkit-scrollbar-thumb{
+.table__body::-webkit-scrollbar-thumb {
     border-radius: .5rem;
     background-color: #0004;
     visibility: hidden;
 }
 
-.table__body:hover::-webkit-scrollbar-thumb{ 
+.table__body:hover::-webkit-scrollbar-thumb {
     visibility: visible;
 }
 
-
+/* Table Styles */
 table {
     width: 100%;
-}
-
-td img {
-    width: 36px;
-    height: 36px;
-    margin-right: .5rem;
-    border-radius: 50%;
-
-    vertical-align: middle;
-}
-
-table, th, td {
     border-collapse: collapse;
+}
+
+th, td {
     padding: 1rem;
     text-align: left;
 }
@@ -147,25 +104,7 @@ tbody tr:hover {
     background-color: #fff6 !important;
 }
 
-tbody tr td,
-tbody tr td p,
-tbody tr td img {
-    transition: .2s ease-in-out;
-}
-
-tbody tr.hide td,
-tbody tr.hide td p {
-    padding: 0;
-    font: 0 / 0 sans-serif;
-    transition: .2s ease-in-out .5s;
-}
-
-tbody tr.hide td img {
-    width: 0;
-    height: 0;
-    transition: .2s ease-in-out .5s;
-}
-
+/* Status Styles */
 .status {
     padding: .4rem 0;
     border-radius: 2rem;
@@ -190,350 +129,297 @@ tbody tr.hide td img {
     background-color: #6fcaea;
 }
 
-
+/* Responsive Styles */
 @media (max-width: 1000px) {
     td:not(:first-of-type) {
         min-width: 12.1rem;
     }
 }
-
-thead th span.icon-arrow {
-    display: inline-block;
-    width: 1.3rem;
-    height: 1.3rem;
-    border-radius: 50%;
-    border: 1.4px solid transparent;
-    
-    text-align: center;
-    font-size: 1rem;
-    
-    margin-left: .5rem;
-    transition: .2s ease-in-out;
-}
-
-thead th:hover span.icon-arrow{
-    border: 1.4px solid #6c00bd;
-}
-
-thead th:hover {
-    color: #6c00bd;
-}
-
-thead th.active span.icon-arrow{
-    background-color: #6c00bd;
-    color: #fff;
-}
-
-thead th.asc span.icon-arrow{
-    transform: rotate(180deg);
-}
-
-thead th.active,tbody td.active {
-    color: #6c00bd;
-}
-
-.export__file {
-    position: relative;
-}
-
-.export__file .export__file-btn {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    background: #fff6 url(images/export.png) center / 80% no-repeat;
-    border-radius: 50%;
-    transition: .2s ease-in-out;
-}
-
-.export__file .export__file-btn:hover { 
-    background-color: #fff;
-    transform: scale(1.15);
-    cursor: pointer;
-}
-
-.export__file input {
-    display: none;
-}
-
-.export__file .export__file-options {
-    position: absolute;
-    right: 0;
-    
-    width: 12rem;
-    border-radius: .5rem;
-    overflow: hidden;
-    text-align: center;
-
-    opacity: 0;
-    transform: scale(.8);
-    transform-origin: top right;
-    
-    box-shadow: 0 .2rem .5rem #0004;
-    
-    transition: .2s;
-}
-
-.export__file input:checked + .export__file-options {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 100;
-}
-
-.export__file .export__file-options label{
-    display: block;
-    width: 100%;
-    padding: .6rem 0;
-    background-color: #f2f2f2;
-    
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    transition: .2s ease-in-out;
-}
-
-.export__file .export__file-options label:first-of-type{
-    padding: 1rem 0;
-    background-color: #86e49d !important;
-}
-
-.export__file .export__file-options label:hover{
-    transform: scale(1.05);
-    background-color: #fff;
-    cursor: pointer;
-}
-
-.export__file .export__file-options img{
-    width: 2rem;
-    height: auto;
-}
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-body{
-
-
-    flex-direction: column;
-    height: 100vh;
-
-}
-.mid-container{
+.mid-container {
     background-color: #FAFAFA;
-    width: 80;
-    height: fit-content;
-    margin-top: 30px;
-    border-radius: 10px ;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-bottom: 40px;
-    margin-bottom: 20px;
-}
-.second-container{
-    background-color: #FAFAFA;
-    width: 80;
-    height: fit-content;
-    margin-top: 30px;
-    border-radius: 10px ;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-bottom: 40px;
-    margin-bottom: 20px;
-    height: 60%;
+    width: 80%;
+    margin: 30px auto;
+    border-radius: 10px;
+    padding: 20px;
 }
 
-.filter{
-    display: flex;
-    gap:60px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    justify-content: center;
-    align-items: center;
-}
-.filter div{
-    width: 100%;
+.mid-container .title h3 {
+    font-size: 1.5rem;
+    color: #333;
     text-align: center;
 }
-.selected{
-    width: 70%;
-}
 
-.one p{
-    display: inline-block;
-
-}
-.head-table{
-    font-weight: bold;
-    font-size: large;
-
-}
-.me-1{
-    float: left;
-}
-h4{
-
-
-    font-weight: bold;
-
-}
-.container{
-    position: relative;
-    max-width: 320px;
-    width: 100%;
-    margin: 80px auto 30px;
-}
-.select-btn{
+.mid-container .filter {
     display: flex;
-    height: 50px;
-    align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #fff;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin-top: 20px;
 }
-.select-btn .btn-text{
-    font-size: 17px;
-    font-weight: 400;
-    color: #333;
-}
-.select-btn .arrow-dwn{
+
+.mid-container .one {
     display: flex;
-    height: 21px;
-    width: 21px;
+    align-items: center;
+    gap: 20px;
+}
+
+.mid-container .one p {
+    margin: 0;
+}
+
+.mid-container .two button {
+    background-color: #007bff;
     color: #fff;
-    font-size: 14px;
-    border-radius: 50%;
-    background: #6e93f7;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-}
-.select-btn.open .arrow-dwn{
-    transform: rotate(-180deg);
-}
-.list-items{
-    position: relative;
-    margin-top: 15px;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #fff;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    display: none;
-}
-.select-btn.open ~ .list-items{
-    display: block;
-}
-.list-items .item{
-    display: flex;
-    align-items: center;
-    list-style: none;
-    height: 50px;
-    cursor: pointer;
-    transition: 0.3s;
-    padding: 0 15px;
-    border-radius: 8px;
-}
-.list-items .item:hover{
-    background-color: #e7edfe;
-}
-.item .item-text{
-    font-size: 16px;
-    font-weight: 400;
-    color: #333;
-}
-.item .checkbox{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 16px;
-    width: 16px;
-    border-radius: 4px;
-    margin-right: 12px;
-    border: 1.5px solid #c0c0c0;
-    transition: all 0.3s ease-in-out;
-}
-.item.checked .checkbox{
-    background-color: #4070f4;
-    border-color: #4070f4;
-}
-.checkbox .check-icon{
-    color: #fff;
-    font-size: 11px;
-    transform: scale(0);
-    transition: all 0.2s ease-in-out;
-}
-.item.checked .check-icon{
-    transform: scale(1);
-}
-.options::-webkit-scrollbar{
-    width: 7px;
-}
-.options::-webkit-scrollbar-track{
-    background: #f1f1f1;
-    border-radius: 25px;
-}
-.options::-webkit-scrollbar-thumb{
-    background: #ccc;
-    border-radius: 25px;
-}
-.options::-webkit-scrollbar-thumb:hover{
-    background: #b3b3b3;
-}
-.options li{
-    height: 50px;
-    padding: 0 13px;
-    font-size: 21px;
-    list-style: none;
-}
-.options li:hover, li.selected{
+    border: none;
     border-radius: 5px;
-    background: #f2f2f2;
-}
-.box-scroll{
-    width:300px;
-    height:400px;
-
-    overflow-y: scroll;
-    scrollbar-width: normal;
-}
-.box-scroll::-webkit-scrollbar{
-    width: 10px;
-}
-.box-scroll::-webkit-scrollbar-thumb{
-    background-color: gray;
-}
-.box-scroll::-webkit-scrollbar-track{
-    background-color: white;
-}
-.page_404{ padding:40px 0; background:#fff; font-family: 'Arvo', serif;
-}
-
-.page_404  img{ width:100%;}
-
-.four_zero_four_bg{
-
-    background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
-    height: 400px;
-    background-position: center;
-}
-
-
-.four_zero_four_bg h1{
-    font-size:80px;
-}
-
-.four_zero_four_bg h3{
-    font-size:80px;
-}
-
-.link_404{
-    color: #fff!important;
     padding: 10px 20px;
-    background: #39ac31;
-    margin: 20px 0;
-    display: inline-block;}
-.contant_box_404{ margin-top:-50px;}
-.thead a{
-    float : right;
+    cursor: pointer;
 }
+
+.mid-container .two button:hover {
+    background-color: #0056b3;
+}
+
+.mid-container .modal {
+    display: none; /* Hide the modal by default */
+}
+
+/* Style for modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Center modal vertically */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.box-scroll {
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add padding to the container */
+    border: 1px solid #ccc; /* Add a border for visual clarity */
+    border-radius: 5px; /* Add rounded corners */
+    width: 360px; /* Adjust the width as needed */
+    height: 500px; /* Adjust the height as needed */
+    scrollbar-width: normal; /* Ensure scrollbar is visible */
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+
+    /* Add box shadow for hover effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect */
+.box-scroll:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Customize scrollbar */
+.box-scroll::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+.box-scroll::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+}
+
+.box-scroll::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+}
+
+.options {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    max-height: 200px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Add a border for visual clarity */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Style individual list items */
+.options li {
+    padding: 10px; /* Add padding to each list item */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Add transition for smooth background color change */
+}
+
+/* Change background color on hover */
+.options li:hover {
+    background-color: #f1f1f1; /* Change background color on hover */
+}
+
+/* Customize scrollbar */
+.options::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+.options::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+}
+
+.options::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add bottom border to separate rows */
+}
+
+thead th {
+    background-color: #f2f2f2; /* Light gray background for header */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background color */
+}
+
+tbody tr:hover {
+    background-color: #e9e9e9; /* Lighter background color on hover */
+}/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add bottom border to separate rows */
+    color: #333; /* Text color */
+}
+
+thead th {
+    background-color: #4CAF50; /* Green background for header */
+    font-weight: bold;
+    color: white; /* Text color */
+    text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #E8F5E9; /* Light green background for even rows */
+}
+
+tbody tr:hover {
+    background-color: #C8E6C9; /* Lighter green background on hover */
+}
+/* Header Styles */
+.header {
+    background-color: #87CEEB; /* Sky-like blue color */
+    padding: 20px;
+    color: white; /* Text color */
+}
+
+/* Content Styles */
+.content {
+    background-color: #228B22; /* Forest green color */
+    padding: 20px;
+    color: white; /* Text color */
+}
+/* Navbar Styles */
+.navbar {
+    background-color: #87CEEB; /* Sky-like blue color */
+    padding: 20px;
+    color: white; /* Text color */
+    border-radius: 5px;
+}
+
+.navbar img {
+    width: 30px; /* Adjust the width of the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add some spacing between the image and text */
+}
+/* Style for the search box */
+.search-box {
+    margin-bottom: 10px;
+}
+
+/* Style for the country list */
+.country-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Optional: Style for the list items */
+.country-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.country-list li:hover {
+    background-color: #f0f0f0;
+}
+.search-box {
+    margin-bottom: 20px;
+}
+
+#countrySearch {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+.footer {
+    background: linear-gradient(to top, #004d92, #0096d1); /* Gradient from dark blue to lighter blue */
+
+    text-align: center;
+    color: white; /* Text color */
+    height: 10%;
+    padding: 0;
+}
+
+.footer-content {
+    position: relative;
+    z-index: 1;
+}
+
+
+
+
+
 
