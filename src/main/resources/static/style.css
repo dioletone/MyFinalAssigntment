@@ -444,6 +444,69 @@ tbody tr:hover {
     text-align: center;
     font-size: 14px;
 }
+.main-content {
+margin-top: 30px;
+}
+.green-grid {
+    background-color: lightgreen;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkgreen;
+}
+
+.orange-grid {
+    background-color: orange;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkorange;
+}
+
+.red-grid {
+    background-color: orangered;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkred;
+}
+.green-grid, .orange-grid, .red-grid {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.green-grid:hover, .orange-grid:hover, .red-grid:hover {
+    border-color: black;
+}
+
+.green-grid:hover h3, .orange-grid:hover h3, .red-grid:hover h3 {
+    color: black;
+}
+
+.green-grid:hover p, .orange-grid:hover p, .red-grid:hover p {
+    color: black;
+}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column/* Adjust as needed */
+}
+
+.flex-item {
+    flex-basis: calc(33.33% - 20px); /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+hr {
+    border: dot-dash darkblue; /* Remove default border */
+    height: 1px; /* Set the height of the line */
+    background-color: #ccc; /* Set the background color of the line */
+    margin: 20px 0;
+}
+
 
 
 

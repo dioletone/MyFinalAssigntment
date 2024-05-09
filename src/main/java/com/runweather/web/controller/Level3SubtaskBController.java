@@ -1,8 +1,9 @@
 package com.runweather.web.controller;
-
+import java.io.IOException;
 import com.runweather.web.dto.cityDto;
 import com.runweather.web.dto.countryDto;
 import com.runweather.web.dto.stateDto;
+import com.runweather.web.entity.country;
 import com.runweather.web.service.cityService;
 import com.runweather.web.service.stateService;
 import com.runweather.web.viewEntity.level3SubtaskB.Table;
@@ -16,11 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.runweather.web.entity.country.readWithCsvBeanReader;
 
 @Controller
 public class Level3SubtaskBController {
@@ -670,6 +674,17 @@ if ("temp".equals(parsedViewBy)){
         List<countryDto> countries = countryService.findAllCountry();
         List<cityDto> cities = cityService.getAllCities();
         List<stateDto> states = stateService.getAllStates();
+        String filePath = "/Users/phanmanhha/Documents/web/Csv/country.csv";
+
+        try {
+            List<country> countrieList = country.readWithCsvBeanReader(filePath);
+            System.out.println(countrieList.get(1));
+            // Process the list of countries
+        } catch (IOException e) {
+            // Handle the IOException (e.g., log it or show an error message)
+            e.printStackTrace();
+        }
+
 
         model.addAttribute("selectedNumber", number);
         model.addAttribute("selectedRegion", region);
