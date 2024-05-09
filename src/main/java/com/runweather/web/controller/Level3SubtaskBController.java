@@ -50,7 +50,7 @@ public class Level3SubtaskBController {
     //Generate query
     public static String generateQuery(String region,String selectedString, int startingYears, int period, double minAverageChange,
                                        double maxAverageChange, long minPopulation, long maxPopulation, int page, int pageSize, String sortType,
-                                       String sortColumn) {
+                                       String sortColumn,String viewBY) {
         String selectedRegion = null;
         String selectedId = null;
         String selectedName = null;
@@ -87,6 +87,7 @@ public class Level3SubtaskBController {
         if(Integer.toString(startingYears).equals(sortColumn)) {
             parseSortColumn = "rank";
         }
+        if (viewBY== null){ viewBY ="";}
         if (period == 0){ period = 45; }
         int length = 44/period;
         StringBuilder query = new StringBuilder();
@@ -95,10 +96,16 @@ public class Level3SubtaskBController {
         for ( int i = 0 ; i<length; i ++){
             query.append(" period").append(i)
                     .append(" as (")
-                    .append(" select Min(t.year) as startYear,Max(t.year) as endYear,")
-                    .append(" Round(Cast(AVG(t.average_temp) as numeric),2) as AvgTemp,")
-                    .append(" Round(CAST(AVG(p.number) as numeric),0) as Avgpop")
-                    .append(" from temperature t ")
+                    .append(" select Min(t.year) as startYear,Max(t.year) as endYear,");
+            if("temp".equals(viewBY)) {
+                    query.append(" Round(Cast(AVG(t.average_temp) as numeric),2) as AvgTemp");}
+                    if("pop".equals(viewBY)) {
+                    query.append(" Round(CAST(AVG(p.number) as numeric),0) as Avgpop");}
+                    else if (!"temp".equals(viewBY) && !"pop".equals(viewBY)) {
+                        query.append(" Round(Cast(AVG(t.average_temp) as numeric),2) as AvgTemp,")
+                                .append(" Round(CAST(AVG(p.number) as numeric),0) as Avgpop");
+                    }
+                    query.append(" from temperature t ")
                     .append(" join ").append(selectedRegion)
                     .append(" c1 on c1.id = t.").append(selectedId)
                     .append(" join population p on p.year = t.year")
@@ -123,7 +130,11 @@ public class Level3SubtaskBController {
                 .append(" union all (")
                 .append(" select *")
                 .append(" from result0 r")
-                .append(" order by ABS((r.AvgTemp -(select AvgTemp from period0))) asc )");
+                .append(" order by ABS((r.")
+                .append(viewBY.equals("pop") ? "Avgpop" : "AvgTemp")
+                .append(" -(select ")
+                .append(viewBY.equals("pop") ? "Avgpop" : "AvgTemp")
+                .append(" from period0))) asc )");
 
 
 
@@ -141,12 +152,12 @@ public class Level3SubtaskBController {
 
     public String[][] executeQuery(String region,String selectedString, int startingYears, int period, double minAverageChange,
                                    double maxAverageChange, long minPopulation, long maxPopulation, int page, int pageSize, String sortType,
-                                   String sortColumn) {
+                                   String sortColumn,String viewBy) {
         List<String[]> resultRows = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = generateQuery(region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
-                    minPopulation, maxPopulation, page, pageSize, sortType, sortColumn);
+                    minPopulation, maxPopulation, page, pageSize, sortType, sortColumn,viewBy);
             System.out.println(sqlQuery);
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -481,6 +492,7 @@ public class Level3SubtaskBController {
 
     @GetMapping("/level3SubtaskB")
     public String listGlobal(Model model,
+                             @RequestParam(name = "viewBy",required = false) String viewBy,
                              @RequestParam(name = "number", required = false) String number,
                              @RequestParam(name = "selectedString", required = false) String selectedString,
                              @RequestParam(name = "yearPeriod", required = false) String yearPeriod,
@@ -496,7 +508,15 @@ public class Level3SubtaskBController {
         int parsedYearPeriod = 0;
         int pageSize = 10;
         int parsedNumber = 0;
+        String parsedViewBy = null;
         System.out.println(number);
+        if(viewBy != null) {
+            try { parsedViewBy = viewBy.toLowerCase();
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
 
         if(number != null && !number.isEmpty()) {
             try {
@@ -588,7 +608,7 @@ public class Level3SubtaskBController {
 
             String[][] data = executeQuery(region, selectedString, parsedStartingYears, parsedYearPeriod,
                     parsedMinAverageChange, parsedMaxAverageChange, parsedMinPopulation, parsedMaxPopulation,
-                    parsedPage, pageSize, sortType, sortColumn);
+                    parsedPage, pageSize, sortType, sortColumn, parsedViewBy);
 
             String[][] data2 = executeQuery2(parsedNumber,region, selectedString, parsedStartingYears, parsedYearPeriod,
                     parsedMinAverageChange, parsedMaxAverageChange, parsedMinPopulation, parsedMaxPopulation,
@@ -604,10 +624,18 @@ public class Level3SubtaskBController {
                 String[][] formatData2 = formatData2(data2, gapTemp);
             }
 
+if ("temp".equals(parsedViewBy)){
+    com.runweather.web.viewEntity.level3SubtaskB.Table table = new Table(new String[]{"Start", "End", "AVG-TEMP"}, data);
+    tables.add(table);
+} else if ("pop".equals(parsedViewBy)){
+    com.runweather.web.viewEntity.level3SubtaskB.Table table = new Table(new String[]{"Start", "End", "Population"}, data);
+    tables.add(table);
+}else if (!"temp".equals(parsedViewBy) && !"pop".equals(parsedViewBy)){
             com.runweather.web.viewEntity.level3SubtaskB.Table table = new Table(new String[]{"Start", "End", "AVG-TEMP", "Population"}, data);
+    tables.add(table);
+}
         com.runweather.web.viewEntity.level3SubtaskB.Table table2 = new Table(new String[]{"Name", "AVG-TEMP"}, data2);
-            tables.add(table);
-            tables.add(table2);
+        tables.add(table2);
 
 
         ArrayList<com.runweather.web.viewEntity.level3SubtaskB.Region> regions = convertStringToRegion(region);

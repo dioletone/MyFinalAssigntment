@@ -39,18 +39,19 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 High-level Data
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Subtask A</a></li>
-                                <li><a class="dropdown-item" href="#">Subtask B</a></li>
-                            </ul>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/subtaskA/global">SubtaskA-Global</a></li>
+                            <li><a class="dropdown-item" href="/subtaskA/countries">SubtaskB-Country</a></li>
+                        </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Deep Data
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Subtask A</a></li>
-                                <li><a class="dropdown-item" href="#">Subtask B</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB">SubtaskB</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -73,23 +74,68 @@
             </svg>
             <p>Filter</p>
             <div class="input">
-                <label for="">Region</label>
-
-
-                <select id="" name="region">
-                     <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}"
-                            th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}">
-                        <button> <a th:href="@{/level3SubtaskB(region=${selectedRegion})}"></a></button>
-
-
-                    </option>
-                </select>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Region
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/level3SubtaskB?region=Country">Country</a></li>
+                        <li><a class="dropdown-item" href="/level3SubtaskB?region=City">City</a></li>
+                        <li><a class="dropdown-item" href="/level3SubtaskB?region=State">State</a></li>
+                    </ul>
+                </div>
 
             </div>
-
+            <form action="/level3SubtaskB" method="get">
+                <input type="hidden" name="region" value="Country">
+                <button type="submit" class="btn btn-primary">Reset</button>
+            </form>
 
         </div>
-        <div class="two">
+        <div class="button-container">
+            <label> View by </label>
+            <form action="/level3SubtaskB" method="get" class="button-form">
+                <input type="hidden" name="region" th:value="${selectedRegion}">
+                <input type="hidden" name="selectedString" th:value="${selectedString}">
+                <input type="hidden" name="yearPeriod" th:value="${modelView.yearPeriod}">
+                <input type="hidden" name="startingYears" th:value="${modelView.startingYears}">
+                <input type="hidden" name="minAverageChange" th:value="${modelView.minAverageChange}">
+                <input type="hidden" name="maxAverageChange" th:value="${modelView.maxAverageChange}">
+                <input type="hidden" name="minPopulation" th:value="${modelView.minPopulation}">
+                <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
+                <input type="hidden" name="number" th:value="${selectedNumber}">
+                <input type="hidden" name="viewBy" value="Temp">
+                <button type="submit" class="btn btn-primary circle-button">Temp</button>
+            </form>
+            <form action="/level3SubtaskB" method="get" class="button-form">
+                <input type="hidden" name="region" th:value="${selectedRegion}">
+                <input type="hidden" name="selectedString" th:value="${selectedString}">
+                <input type="hidden" name="yearPeriod" th:value="${modelView.yearPeriod}">
+                <input type="hidden" name="startingYears" th:value="${modelView.startingYears}">
+                <input type="hidden" name="minAverageChange" th:value="${modelView.minAverageChange}">
+                <input type="hidden" name="maxAverageChange" th:value="${modelView.maxAverageChange}">
+                <input type="hidden" name="minPopulation" th:value="${modelView.minPopulation}">
+                <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
+                <input type="hidden" name="number" th:value="${selectedNumber}">
+                <input type="hidden" name="viewBy" value="Pop">
+                <button type="submit" class="btn btn-primary circle-button">Pop</button>
+            </form>
+            <form action="/level3SubtaskB" method="get" class="button-form">
+                <input type="hidden" name="region" th:value="${selectedRegion}">
+                <input type="hidden" name="selectedString" th:value="${selectedString}">
+                <input type="hidden" name="yearPeriod" th:value="${modelView.yearPeriod}">
+                <input type="hidden" name="startingYears" th:value="${modelView.startingYears}">
+                <input type="hidden" name="minAverageChange" th:value="${modelView.minAverageChange}">
+                <input type="hidden" name="maxAverageChange" th:value="${modelView.maxAverageChange}">
+                <input type="hidden" name="minPopulation" th:value="${modelView.minPopulation}">
+                <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
+                <input type="hidden" name="number" th:value="${selectedNumber}">
+                <input type="hidden" name="viewBy" value="Both">
+                <button type="submit" class="btn btn-primary circle-button">Both</button>
+            </form>
+        </div>
+
+        <div class="three">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Fitures List
             </button>
@@ -110,15 +156,16 @@
                                     <ul class="options">
                                         <li>
                                             <div class="input">
-                                                <label for="region">Region</label>
+                                                <label for="region">Selected Region</label>
                                                 <select id="region" name="region">
-                                                    <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}"></option>
+                                                    <option hidden="hidden" th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}"></option>
                                                 </select>
                                             </div>
                                         </li>
 
 
-                                        <li > <select name="selectedString" id ="selectedString" >
+                                        <li > <label for="selectedString">Select a <span th:text="${selectedRegion.toLowerCase()}"></span></label>
+                                            <select name="selectedString" id ="selectedString" >
                                         <option th:if="${selectedRegion.equals('Country')}" th:each="country:${countries}"  th:text="${country.name}" th:value="${country.name}" ></option>
                                         <option th:if="${selectedRegion.equals('City')}" th:each="city:${cities}"  th:text="${city.name}" th:value="${city.name}" ></option>
                                         <option th:if="${selectedRegion.equals('State')}" th:each="state:${states}"  th:text="${state.name}" th:value="${state.name}" ></option>
@@ -183,8 +230,7 @@
 
 
 
-        <form th:action="@{/level3SubtaskB}" th:method="get">
-            <button type="submit" class="btn btn-primary" >Reset</button></form>
+
 
 
     </div>
@@ -217,7 +263,7 @@
         <table >
 
             <div class="applyData" th:if = "${table.data.length == 0} "  >
-                <h2 style="font-size: 18px; font-weight: 700;float: left;  ">Apply Filter To Display Data Or No Data </h2>
+                <h2 style="font-size: 18px; font-weight: 700;float: left;  ">Apply Features To Display Data Or No Data </h2>
                 <img src="/apply-data.png" style="height: 50%; width: 50%; justify-content: center;align-items: center">
 
             </div>
@@ -277,7 +323,10 @@
     function resetFilter (path) {
         var url = '/level3SubtaskB' + path
         window.location.href = url;
+
+
     }
+
 </script>
 
 </body>

@@ -10,8 +10,9 @@
 </head>
 <body>
 <!-- headers-->
-<div class="headerbox">
+<div class="header">
     <nav class="navbar navbar-expand-lg navbar-dark text-bg-secondary" aria-label="Offcanvas navbar large">
+        <img th:src="@{/sun.png}" alt="Bee Icon">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cloud-fill" viewBox="0 0 16 16">
@@ -39,8 +40,8 @@
                                 High-level Data
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Subtask A</a></li>
-                                <li><a class="dropdown-item" href="#">Subtask B</a></li>
+                                <li><a class="dropdown-item" href="/subtaskA/global">SubtaskA-Global</a></li>
+                                <li><a class="dropdown-item" href="/subtaskA/countries">SubtaskB-Country</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -48,8 +49,9 @@
                                 Deep Data
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Subtask A</a></li>
-                                <li><a class="dropdown-item" href="#">Subtask B</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB">SubtaskB</a></li>
                             </ul>
                         </li>
                     </ul>
