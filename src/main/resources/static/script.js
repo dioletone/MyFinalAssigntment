@@ -1,79 +1,126 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('.input-group input');
+    const tableRows = document.querySelectorAll('tbody tr');
+    const tableHeadings = document.querySelectorAll('thead th');
+    const selectBtn = document.querySelector(".select-btn");
 
-const search = document.querySelector('.input-group input'),
-    table_rows = document.querySelectorAll('tbody tr'),
-    table_headings = document.querySelectorAll('thead th');
+    // Searching
+    function searchTable() {
+        const searchValue = searchInput.value.toLowerCase();
 
-// 1. Searching
-search.addEventListener('input', searchTable);
+        tableRows.forEach((row, i) => {
+            let tableData = row.textContent.toLowerCase();
+            let matchedIndexes = [];
 
-function searchTable() {
-    table_rows.forEach((row, i) => {
-        let table_data = row.textContent.toLowerCase(),
-            search_data = search.value.toLowerCase();
+            let index = tableData.indexOf(searchValue);
+            while (index !== -1) {
+                matchedIndexes.push(index);
+                index = tableData.indexOf(searchValue, index + 1);
+            }
 
-        row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-        row.style.setProperty('--delay', i / 25 + 's');
-    })
+            console.log('Matched indexes for row ' + i + ':', matchedIndexes);
 
-    document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
-    });
-}
+            if (matchedIndexes.length > 0) {
+                let newRowHTML = '';
+                let lastIndex = 0;
+                matchedIndexes.forEach(idx => {
+                    newRowHTML += tableData.substring(lastIndex, idx);
+                    newRowHTML += '<span class="highlight">' + tableData.substr(idx, searchValue.length) + '</span>';
+                    lastIndex = idx + searchValue.length;
+                });
+                newRowHTML += tableData.substring(lastIndex);
 
-// 2. Sorting
+                row.innerHTML = newRowHTML;
+                row.classList.remove('hide');
+            } else {
+                row.classList.add('hide');
+            }
 
-table_headings.forEach((head, i) => {
-    let sort_asc = true;
-    head.onclick = () => {
-        table_headings.forEach(head => head.classList.remove('active'));
-        head.classList.add('active');
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
 
-        document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
-        table_rows.forEach(row => {
-            row.querySelectorAll('td')[i].classList.add('active');
-        })
-
-        head.classList.toggle('asc', sort_asc);
-        sort_asc = !head.classList.contains('asc');
-
-        sortTable(i, sort_asc);
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visibleRow, i) => {
+            visibleRow.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+        });
     }
-})
 
+    searchInput.addEventListener('input', searchTable);
 
-function sortTable(column, sort_asc) {
-    [...table_rows].sort((a, b) => {
-        let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
-            second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+    // Sorting
+    tableHeadings.forEach((head, i) => {
+        let sortAsc = true;
+        head.onclick = () => {
+            tableHeadings.forEach(head => head.classList.remove('active'));
+            head.classList.add('active');
 
-        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
-    })
-        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
-}
-const selectBtn = document.querySelector(".select-btn"),
-    items = document.querySelectorAll(".item");
+            document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+            tableRows.forEach(row => {
+                row.querySelectorAll('td')[i].classList.add('active');
+            });
 
+            head.classList.toggle('asc', sortAsc);
+            sortAsc = !head.classList.contains('asc');
 
-selectBtn.addEventListener("click", () => {
-    selectBtn.classList.toggle("open");
-});
-
-items.forEach(item => {
-    item.addEventListener("click", () => {
-        item.classList.toggle("checked");
-
-        let checked = document.querySelectorAll(".checked"),
-            btnText = document.querySelector(".btn-text");
-
-        if(checked && checked.length > 0){
-            btnText.innerText = `${checked.length} Selected`;
-        }else{
-            btnText.innerText = "Select Language";
-        }
+            sortTable(i, sortAsc);
+        };
     });
-})
 
+    function sortTable(column, sortAsc) {
+        [...tableRows].sort((a, b) => {
+            let firstRow = a.querySelectorAll('td')[column].textContent.toLowerCase();
+            let secondRow = b.querySelectorAll('td')[column].textContent.toLowerCase();
 
+            return sortAsc ? (firstRow < secondRow ? 1 : -1) : (firstRow < secondRow ? -1 : 1);
+        }).map(sortedRow => document.querySelector('tbody').appendChild(sortedRow));
+    }
+
+    // Select Button and Items
+    selectBtn.addEventListener("click", () => {
+        selectBtn.classList.toggle("open");
+    });
+
+    const items = document.querySelectorAll(".item");
+    items.forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("checked");
+
+            let checked = document.querySelectorAll(".checked");
+            let btnText = document.querySelector(".btn-text");
+
+            if (checked && checked.length > 0) {
+                btnText.innerText = `${checked.length} Selected`;
+            } else {
+                btnText.innerText = "Select Language";
+            }
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('searchInput');
+    const countrySuggestions = document.getElementById('countrySuggestions');
+
+    // Define your list of countries
+    const countries = ["Country 1", "Country 2", "Country 3"];
+
+    // Update suggestions when the input changes
+    searchInput.addEventListener('input', updateSuggestions);
+
+    function updateSuggestions() {
+        const inputValue = searchInput.value.toLowerCase();
+        countrySuggestions.innerHTML = ''; // Clear previous suggestions
+
+        // Filter countries based on input value and add them to suggestions
+        const filteredCountries = countries.filter(country =>
+            country.toLowerCase().startsWith(inputValue)
+        );
+
+        filteredCountries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            countrySuggestions.appendChild(option);
+        });
+    }
+});
 
 
 

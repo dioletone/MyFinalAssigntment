@@ -10,7 +10,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     flex-direction: column;
-    height: 100vh;
+    height: fit-content;
     background-color: #e0f2f1;
 }
 
@@ -189,8 +189,8 @@ tbody tr:hover {
     margin: 10% auto; /* Center modal vertically */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 550px;
     border-radius: 10px;
 }
 
@@ -214,7 +214,7 @@ tbody tr:hover {
     padding: 10px; /* Add padding to the container */
     border: 1px solid #ccc; /* Add a border for visual clarity */
     border-radius: 5px; /* Add rounded corners */
-    width: 360px; /* Adjust the width as needed */
+    width: 96%; /* Adjust the width as needed */
     height: 500px; /* Adjust the height as needed */
     scrollbar-width: normal; /* Ensure scrollbar is visible */
     transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
@@ -246,7 +246,7 @@ tbody tr:hover {
     list-style: none; /* Remove default list styles */
     padding: 0; /* Remove default padding */
     margin: 0; /* Remove default margin */
-    max-height: 200px; /* Adjust the maximum height as needed */
+    max-height: 300px; /* Adjust the maximum height as needed */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Add a border for visual clarity */
     border-radius: 5px; /* Add rounded corners */
@@ -466,6 +466,7 @@ margin-top: 30px;
     padding: 20px;
     margin-bottom: 20px;
     border: 1px solid darkred;
+
 }
 .green-grid, .orange-grid, .red-grid {
     padding: 20px;
@@ -506,6 +507,94 @@ hr {
     background-color: #ccc; /* Set the background color of the line */
     margin: 20px 0;
 }
+/* Container for the form */
+.two {
+    margin: 20px auto;
+    width: 300px;
+}
+
+/* Style for form inputs and labels */
+
+
+.input input {
+
+    border-radius: 5px;
+
+}
+
+/* Apply button */
+.apply-section {
+    text-align: center;
+    margin-top: 10px; /* Added margin-top for separation */
+}
+.input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.apply-section button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.apply-section button:hover {
+    background-color: #0056b3;
+}
+.highlight {
+    background-color: yellow;
+}
+.row {
+    height: fit-content !important; /* Adjust the height to fit its content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-item {
+    flex-basis: 30%; /* Adjust as needed */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.flex-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.flex-item p {
+    margin-top: 10px;
+}
+table {
+    width: 100%; /* Make the table take up 100% of its container */
+    border-collapse: collapse; /* Collapse table borders */
+}
+
+
+svg {
+    position: absolute; /* Set position to absolute */
+    top:15px; /* Align SVG to the top */
+    right: 0; /* Align SVG to the right */
+visibility: hidden;
+    margin-left: 5px/* Add some margin for spacing */;
+
+}
+
+
+
 
 
 

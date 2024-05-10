@@ -7,6 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>My Capstone</title>
     <link th:href="@{/style.css}"  rel="stylesheet">
+    <style>
+        .input{
+            text-align: center  ;
+        }
+        /* Hide the default checkbox */
+        .hidden-checkbox {
+            display: none;
+        }
+
+        .checkbox-label {
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 10px; /* Adjust spacing as needed */
+        }
+
+    </style>
 </head>
 <body>
 <!-- headers-->
@@ -30,10 +46,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mission Statement</a>
+                            <a class="nav-link" href="/mission">Mission Statement</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,7 +67,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
                                 <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
-                                <li><a class="dropdown-item" href="/level3SubtaskB">SubtaskB</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB?region=Country"> SubtaskB</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -86,14 +102,109 @@
                 </div>
 
             </div>
-            <form action="/level3SubtaskB" method="get">
-                <input type="hidden" name="region" value="Country">
-                <button type="submit" class="btn btn-primary">Reset</button>
-            </form>
+            <div class="three">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Fitures List
+                </button>
+
+                <!-- Modal -->
+
+                <div class="feature-list modal fade list-items" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg"> <!-- Increased modal size for better interaction -->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Features List</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form th:action="@{/level3SubtaskB}" th:method="get">
+                                <div class="modal-body">
+                                    <div class="box-scroll">
+                                        <h3 th:text="${selectedRegion}"></h3>
+                                        <ul class="options">
+                                            <li>
+                                                <div class="input">
+                                                    <label for="region">Selected Region</label>
+                                                    <select id="region" name="region">
+                                                        <option hidden="hidden" th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}"></option>
+                                                    </select>
+                                                </div>
+                                            </li>
+
+
+                                            <li >
+                                                <div class="input">
+                                                <label for="selectedString">Select a <span th:text="${selectedRegion.toLowerCase()}"></span></label>
+                                                <select name="selectedString" id ="selectedString" >
+                                                    <option th:if="${selectedRegion.equals('Country')}" th:each="country:${countries}"  th:text="${country.name}" th:value="${country.name}" ></option>
+                                                    <option th:if="${selectedRegion.equals('City')}" th:each="city:${cities}"  th:text="${city.name}" th:value="${city.name}" ></option>
+                                                    <option th:if="${selectedRegion.equals('State')}" th:each="state:${states}"  th:text="${state.name}" th:value="${state.name}" ></option>
+
+                                                </select>
+                                                </div>
+                                            </li>
+                                            <li></li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">Periods Time</label>
+                                                    <input type="number" name="yearPeriod" id="yearPeriod" th:value="${modelView.yearPeriod}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">Startting Year</label>
+                                                    <input  name="startingYears" id="startingYears" th:value="${modelView.startingYears}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">First AVG</label>
+                                                    <input type="number" name="minAverageChange" id="minAverageChange" th:value="${modelView.minAverageChange}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">Last AVG</label>
+                                                    <input type="number" name="maxAverageChange" id="maxAverageChange" th:value="${modelView.maxAverageChange}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">First Population</label>
+                                                    <input type="number" name="minPopulation" id="minPopulation" th:value="${modelView.minPopulation}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">Last Population</label>
+                                                    <input type="number" name="maxPopulation" id="maxPopulation" th:value="${modelView.maxPopulation}">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="input">
+                                                    <label for="">Numbers of similar result</label>
+                                                    <input type="number" name="number" id="number" th:value="${selectedNumber}">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
+
+
         <div class="button-container">
-            <label> View by </label>
+
+
             <form action="/level3SubtaskB" method="get" class="button-form">
                 <input type="hidden" name="region" th:value="${selectedRegion}">
                 <input type="hidden" name="selectedString" th:value="${selectedString}">
@@ -105,8 +216,13 @@
                 <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
                 <input type="hidden" name="number" th:value="${selectedNumber}">
                 <input type="hidden" name="viewBy" value="Temp">
-                <button type="submit" class="btn btn-primary circle-button">Temp</button>
+                <label class="checkbox-label">
+
+                    <input type="checkbox" id="tempCheckbox" class="checkbox" th:checked="${isViewByTemp}">
+                    View By Temperature
+                </label>
             </form>
+
             <form action="/level3SubtaskB" method="get" class="button-form">
                 <input type="hidden" name="region" th:value="${selectedRegion}">
                 <input type="hidden" name="selectedString" th:value="${selectedString}">
@@ -118,7 +234,11 @@
                 <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
                 <input type="hidden" name="number" th:value="${selectedNumber}">
                 <input type="hidden" name="viewBy" value="Pop">
-                <button type="submit" class="btn btn-primary circle-button">Pop</button>
+                <label class="checkbox-label">
+
+                    <input type="checkbox" id="tempCheckbox1" class="checkbox" th:checked="${isViewByPop}">
+                    View By Population
+                </label>
             </form>
             <form action="/level3SubtaskB" method="get" class="button-form">
                 <input type="hidden" name="region" th:value="${selectedRegion}">
@@ -135,97 +255,10 @@
             </form>
         </div>
 
-        <div class="three">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Fitures List
-            </button>
-
-            <!-- Modal -->
-
-            <div class="feature-list modal fade list-items" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg"> <!-- Increased modal size for better interaction -->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Features List</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form th:action="@{/level3SubtaskB}" th:method="get">
-                            <div class="modal-body">
-                                <div class="box-scroll">
-                                    <h3 th:text="${selectedRegion}"></h3>
-                                    <ul class="options">
-                                        <li>
-                                            <div class="input">
-                                                <label for="region">Selected Region</label>
-                                                <select id="region" name="region">
-                                                    <option hidden="hidden" th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskB(region=${selectedRegion})}"></option>
-                                                </select>
-                                            </div>
-                                        </li>
-
-
-                                        <li > <label for="selectedString">Select a <span th:text="${selectedRegion.toLowerCase()}"></span></label>
-                                            <select name="selectedString" id ="selectedString" >
-                                        <option th:if="${selectedRegion.equals('Country')}" th:each="country:${countries}"  th:text="${country.name}" th:value="${country.name}" ></option>
-                                        <option th:if="${selectedRegion.equals('City')}" th:each="city:${cities}"  th:text="${city.name}" th:value="${city.name}" ></option>
-                                        <option th:if="${selectedRegion.equals('State')}" th:each="state:${states}"  th:text="${state.name}" th:value="${state.name}" ></option>
-
-                                    </select></li>
-                                    <li></li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Periods Time</label>
-                                            <input type="number" name="yearPeriod" id="yearPeriod" th:value="${modelView.yearPeriod}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Startting Year</label>
-                                            <input  name="startingYears" id="startingYears" th:value="${modelView.startingYears}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">First AVG</label>
-                                            <input type="number" name="minAverageChange" id="minAverageChange" th:value="${modelView.minAverageChange}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Last AVG</label>
-                                            <input type="number" name="maxAverageChange" id="maxAverageChange" th:value="${modelView.maxAverageChange}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">First Population</label>
-                                            <input type="number" name="minPopulation" id="minPopulation" th:value="${modelView.minPopulation}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Last Population</label>
-                                            <input type="number" name="maxPopulation" id="maxPopulation" th:value="${modelView.maxPopulation}">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="input">
-                                            <label for="">Numbers of similar result</label>
-                                            <input type="number" name="number" id="number" th:value="${selectedNumber}">
-                                        </div>
-                                    </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <form action="/level3SubtaskB" method="get">
+            <input type="hidden" name="region" value="Country">
+            <button type="submit" class="btn btn-primary">Reset</button>
+        </form>
 
 
 
@@ -316,13 +349,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script th:src="@{/script.js}">
-    function resetFilter (path) {
-        var url = '/level3SubtaskB' + path
-        window.location.href = url;
 
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tempCheckbox = document.getElementById("tempCheckbox");
 
-    }
+        tempCheckbox.addEventListener("click", function() {
+            if (this.checked) {
+                // If checkbox is checked, submit the form
+                this.closest("form").submit();
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const tempCheckbox = document.getElementById("tempCheckbox1");
 
+        tempCheckbox.addEventListener("click", function() {
+            if (this.checked) {
+                // If checkbox is checked, submit the form
+                this.closest("form").submit();
+            }
+        });
+    });
 </script>
 
 </body>

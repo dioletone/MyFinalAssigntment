@@ -30,10 +30,10 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mission Statement</a>
+                            <a class="nav-link" href="/mission">Mission Statement</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,7 +51,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
                                 <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
-                                <li><a class="dropdown-item" href="/level3SubtaskB">SubtaskB</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB?region=Country">SubtaskB</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -65,7 +65,7 @@
 
 <div class="mid-container">
     <div class="title">
-        <h3><span>High-level Data</span> > Subtask A </h3>
+        <h3><span>Global Data</span> - Subtask A </h3>
     </div>
     <div class="filter">
         <div class="one">
@@ -74,12 +74,8 @@
             </svg>
             <p>Filter</p>
         </div>
+
         <div class="two">
-            <h3>Global</h3>
-
-
-
-        </div>
         <form th:action="@{/subtaskA/global}" th:method="get">
 
             <div class="input">
@@ -99,6 +95,7 @@
         </div>
 
         </form>
+        </div>
 
 </div>
 <!-- table-->
@@ -159,12 +156,10 @@
 <!--footer-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script th:src="@{/script.js}">
-    function resetFilter (path) {
-        var url = '/subtaskA/global' + path
-        window.location.href = url;
-    }
-</script>
+
+<!-- Custom JavaScript -->
+<script type="text/javascript" th:src="@{/script.js}"></script>
+
 
 </body>
 </html>

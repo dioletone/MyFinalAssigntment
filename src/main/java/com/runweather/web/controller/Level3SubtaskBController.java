@@ -455,9 +455,15 @@ public class Level3SubtaskBController {
             for (int i = 0; i < data.length - 1; i++) {
                 if (data[i] != null && data[i + 1] != null && data[i].length > index && data[i + 1].length > index) {
                     try {
-                        double currentValue = Double.parseDouble(data[i + 1][index]);
-                        double initialvalue = Double.parseDouble(data[0][index]);
-                        gap.add(Math.round((currentValue - initialvalue) * 100) / 100.0);
+                        String currentValueStr = data[i + 1][index];
+                        String initialvalueStr = data[0][index];
+                        if (currentValueStr != null && initialvalueStr != null) { // Additional null check
+                            double currentValue = Double.parseDouble(currentValueStr.trim());
+                            double initialvalue = Double.parseDouble(initialvalueStr.trim());
+                            gap.add(Math.round((currentValue - initialvalue) * 100) / 100.0);
+                        } else {
+                            // Handle null values if necessary
+                        }
                     } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace(); // Handle parsing errors or index out of bounds exceptions
                     }
@@ -466,6 +472,7 @@ public class Level3SubtaskBController {
         }
         return gap;
     }
+
 
     private String[][] formatData(String[][] data, ArrayList<Double> gapTemp, ArrayList<Double> gapPop) {
         for (int i = 1; i < data.length; i++) {
@@ -684,6 +691,11 @@ if ("temp".equals(parsedViewBy)){
             // Handle the IOException (e.g., log it or show an error message)
             e.printStackTrace();
         }
+        boolean isViewByTemp = false;
+        if ("temp".equals(parsedViewBy)) { isViewByTemp = true;}
+        boolean isViewByPop = false;
+        if ("pop".equals(parsedViewBy)) { isViewByPop = true;}
+        System.out.println(isViewByTemp);
 
 
         model.addAttribute("selectedNumber", number);
@@ -696,6 +708,8 @@ if ("temp".equals(parsedViewBy)){
         model.addAttribute("modelView", modelView);
         model.addAttribute("gapTemp", gapTemp);
         model.addAttribute("gapPop", gapPop);
+        model.addAttribute("isViewByTemp", isViewByTemp);
+        model.addAttribute("isViewByPop", isViewByPop);
 
         return "level3SubtaskB";
     }
