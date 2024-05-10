@@ -240,19 +240,7 @@
                     View By Population
                 </label>
             </form>
-            <form action="/level3SubtaskB" method="get" class="button-form">
-                <input type="hidden" name="region" th:value="${selectedRegion}">
-                <input type="hidden" name="selectedString" th:value="${selectedString}">
-                <input type="hidden" name="yearPeriod" th:value="${modelView.yearPeriod}">
-                <input type="hidden" name="startingYears" th:value="${modelView.startingYears}">
-                <input type="hidden" name="minAverageChange" th:value="${modelView.minAverageChange}">
-                <input type="hidden" name="maxAverageChange" th:value="${modelView.maxAverageChange}">
-                <input type="hidden" name="minPopulation" th:value="${modelView.minPopulation}">
-                <input type="hidden" name="maxPopulation" th:value="${modelView.maxPopulation}">
-                <input type="hidden" name="number" th:value="${selectedNumber}">
-                <input type="hidden" name="viewBy" value="Both">
-                <button type="submit" class="btn btn-primary circle-button">Both</button>
-            </form>
+
         </div>
 
         <form action="/level3SubtaskB" method="get">
@@ -354,24 +342,28 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const tempCheckbox = document.getElementById("tempCheckbox");
+        const tempCheckbox1 = document.getElementById("tempCheckbox1");
 
-        tempCheckbox.addEventListener("click", function() {
-            if (this.checked) {
-                // If checkbox is checked, submit the form
-                this.closest("form").submit();
-            }
-        });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        const tempCheckbox = document.getElementById("tempCheckbox1");
+        function updateViewBy() {
+            const viewByTempChecked = tempCheckbox.checked;
+            const viewByPopChecked = tempCheckbox1.checked;
 
-        tempCheckbox.addEventListener("click", function() {
-            if (this.checked) {
-                // If checkbox is checked, submit the form
-                this.closest("form").submit();
-            }
-        });
+            const viewByParam = viewByTempChecked && viewByPopChecked ? "True" :
+                viewByTempChecked ? "Temp" :
+                    viewByPopChecked ? "Pop" : "False";
+
+            document.querySelectorAll('.button-form').forEach(form => {
+                form.querySelector('[name="viewBy"]').value = viewByParam;
+            });
+
+            // Submit the form after updating viewByParam
+            this.closest("form").submit();
+        }
+
+        tempCheckbox.addEventListener("click", updateViewBy);
+        tempCheckbox1.addEventListener("click", updateViewBy);
     });
+
 </script>
 
 </body>

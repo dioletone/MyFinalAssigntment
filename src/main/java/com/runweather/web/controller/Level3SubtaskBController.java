@@ -692,10 +692,10 @@ if ("temp".equals(parsedViewBy)){
             e.printStackTrace();
         }
         boolean isViewByTemp = false;
-        if ("temp".equals(parsedViewBy)) { isViewByTemp = true;}
+        if ("temp".equals(parsedViewBy) || "true".equals(parsedViewBy)) { isViewByTemp = true;}
         boolean isViewByPop = false;
-        if ("pop".equals(parsedViewBy)) { isViewByPop = true;}
-        System.out.println(isViewByTemp);
+        if ("pop".equals(parsedViewBy) || "true".equals(parsedViewBy)) { isViewByPop = true;}
+
 
 
         model.addAttribute("selectedNumber", number);

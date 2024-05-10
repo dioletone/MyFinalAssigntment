@@ -330,6 +330,14 @@ public class CountryController {
             model.addAttribute("nextSortType", "ASC");
         }
         System.err.println("sortType: " + sortType);
+        String parsedSelectedCountry = "";
+        if (selectedCountry != null && !selectedCountry.isEmpty()) {
+            try{
+                parsedSelectedCountry = selectedCountry;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         modelView.setSortColumn((sortColumn != null && !sortColumn.isEmpty()) ? sortColumn : "");
         modelView.setSortType((sortType != null && !sortType.isEmpty()) ? sortType : "");
@@ -338,6 +346,7 @@ public class CountryController {
         model.addAttribute("lengthData", length);
         model.addAttribute("modelView", modelView);
         model.addAttribute("countries", countries);
+        model.addAttribute("selectedCountry", parsedSelectedCountry);
 
 
 

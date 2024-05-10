@@ -100,7 +100,7 @@
                                         <!-- Add unique IDs to each checkbox -->
                                         <li th:each="country, i : ${countries}">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="selectedCountry" th:value="${country.name}" th:id="'flexCheckDefault_' + ${i.index}">
+                                                <input class="form-check-input" type="checkbox" name="selectedCountry" th:value="${country.name}" th:id="'flexCheckDefault_' + ${i.index}" th:checked="${selectedCountry.equals(country.name)}">
                                                 <label class="form-check-label" th:for="'flexCheckDefault_' + ${i.index}" th:text="${country.name}"></label>
                                             </div>
                                         </li>
