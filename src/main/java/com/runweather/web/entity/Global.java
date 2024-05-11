@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 @Entity
 @Table(name = "global")
 public class Global {
@@ -24,4 +21,36 @@ public class Global {
     @OneToMany(mappedBy = "global", cascade = CascadeType.REMOVE)
     private Set<temperature> temperatures = new HashSet<>();
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<temperature> getTemperatures() {
+        return temperatures;
+    }
+
+    public void setTemperatures(Set<temperature> temperatures) {
+        this.temperatures = temperatures;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Global() {
+    }
+
+    public Global(int id, Set<temperature> temperatures, String name) {
+        this.id = id;
+        this.temperatures = temperatures;
+        this.name = name;
+    }
 }

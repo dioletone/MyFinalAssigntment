@@ -103,6 +103,7 @@ public class Level3SubtaskAController {
 
 
         StringBuilder query = new StringBuilder();
+        if (startingYears.length > 0) {
         query.append("With ");
         for (int i = 0; i < startingYears.length; i++) {
 
@@ -163,7 +164,7 @@ public class Level3SubtaskAController {
         query.append(" )) as rank ");
                 query.append(" from resultData0 r0");
         for (int i = 1; i < startingYears.length; i++) {
-            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".rname").append(" = r").append(i).append(".rname");}
+            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".rname").append(" = r").append(i).append(".rname");}}
 
 
 
@@ -188,7 +189,7 @@ public class Level3SubtaskAController {
             String sqlQuery = generateQuery(region, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation, page, pageSize, sortType, sortColumn);
             System.out.println(sqlQuery);
-
+            if(sqlQuery != null && !sqlQuery.isEmpty()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 ResultSetMetaData metaData = resultSet.getMetaData();
@@ -208,7 +209,7 @@ public class Level3SubtaskAController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -247,6 +248,7 @@ public class Level3SubtaskAController {
             selectedRegion = "global";
             selectedId = "global_id";
         }
+        if( startingYears.length >0){
         query.append("With ");
         for (int i = 0; i < startingYears.length; i++) {
 
@@ -298,7 +300,7 @@ public class Level3SubtaskAController {
 
         query.append(" Select COUNT(*)").append(" from resultData0 r0");
         for (int i = 1; i < startingYears.length-1; i++) {
-            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".").append(selectedRegion).append(" = r").append(i).append(".").append(selectedRegion);}
+            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".").append(selectedRegion).append(" = r").append(i).append(".").append(selectedRegion);}}
 
 
 
@@ -315,6 +317,7 @@ public class Level3SubtaskAController {
             String sqlQuery = countTotalPage(region, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation);
 //            System.out.println(sqlQuery);
+            if(sqlQuery != null && !sqlQuery.isEmpty()){
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -324,7 +327,7 @@ public class Level3SubtaskAController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 

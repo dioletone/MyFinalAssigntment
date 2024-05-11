@@ -1,5 +1,4 @@
 package com.runweather.web.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,53 +17,106 @@ import java.util.List;
 import java.util.Set;
 
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Builder
 @Entity
-@Table(name="country")
+@Table(name = "country")
 public class country {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
-    @Column(name="country_code")
-    private String code;
-    @Column(name="country_name")
-    private String name;
 
+    @Column(name = "country_code")
+    private String code;
+
+    @Column(name = "country_name")
+    private String name;
 
     @OneToMany(mappedBy = "country", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Set<city> cities = new HashSet<>();
+
     @OneToMany(mappedBy = "country", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private Set<state> states =new HashSet<>();
+    private Set<state> states = new HashSet<>();
+
     @OneToMany(mappedBy = "country", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private Set<population> populations =new HashSet<>();
+    private Set<population> populations = new HashSet<>();
+
     @OneToMany(mappedBy = "country", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private Set<temperature> tempertatures =new HashSet<>();
+    private Set<temperature> temperatures = new HashSet<>();
+
+    // Add a static method to convert CSVRecord to Country object
 
 
-    // Add a static method to convert CSVRecord to country object
-    public static country fromCSVRecord(CSVRecord record) {
-        return country.builder()
-                .id(Integer.parseInt(record.get("id")))
-                .code(record.get("country_code"))
-                .name(record.get("country_name"))
-                .build();
+    // Add a static method to read CSV file and create a list of Country objects
+
+    public country() {
     }
 
-    // Add a static method to read CSV file and create a list of country objects
-    public static List<country> readWithCsvBeanReader(String filePath) throws IOException {
-        List<country> countries = new ArrayList<>();
+    public country(int id, String code, String name, Set<city> cities, Set<state> states, Set<population> populations, Set<temperature> temperatures) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.cities = cities;
+        this.states = states;
+        this.populations = populations;
+        this.temperatures = temperatures;
+    }
 
-        try (Reader reader = new FileReader(filePath);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader())) {
+    public int getId() {
+        return id;
+    }
 
-            for (CSVRecord record : csvParser) {
-                country c = fromCSVRecord(record);
-                countries.add(c);
-            }
-        }
-return countries;}
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<city> getCities() {
+        return cities;
+    }
+
+    public void setCities(Set<city> cities) {
+        this.cities = cities;
+    }
+
+    public Set<state> getStates() {
+        return states;
+    }
+
+    public void setStates(Set<state> states) {
+        this.states = states;
+    }
+
+    public Set<population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(Set<population> populations) {
+        this.populations = populations;
+    }
+
+    public Set<temperature> getTemperatures() {
+        return temperatures;
+    }
+
+    public void setTemperatures(Set<temperature> temperatures) {
+        this.temperatures = temperatures;
+    }
 }

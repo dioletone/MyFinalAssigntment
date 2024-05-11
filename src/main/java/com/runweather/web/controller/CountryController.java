@@ -73,6 +73,8 @@ public class CountryController {
 
 
         StringBuilder query = new StringBuilder();
+    if (selectedRegion != null) {
+
         query.append("With startYears As ( Select c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
                 .append(" From temperature t ")
                 .append("   Join public.").append(selectedRegion)
@@ -111,7 +113,7 @@ public class CountryController {
                 .append("  group by r.name, r.AvgDiff, r.MaxDiff, r.MinDiff, r.Correlation)")
                 .append("  select *")
                 .append(" from rankData r1")
-                .append("  Natural join resultData");
+                .append("  Natural join resultData");}
 
 
 
@@ -130,6 +132,7 @@ public class CountryController {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = generateQuery(region, startYears, endYears, page, pageSize, sortType, sortColumn, selectedCountry);
             System.out.println(sqlQuery);
+            if(sqlQuery != null && !sqlQuery.isEmpty()) {
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -150,7 +153,7 @@ public class CountryController {
                 }
             }
 
-        } catch (SQLException e) {
+        } }catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -174,6 +177,7 @@ public class CountryController {
             selectedRegion = "state";
             selectedId = "state_id";
         }
+        if(selectedRegion != null && !selectedRegion.isEmpty()) {
         query.append("With startYears As ( Select c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
                 .append(" From temperature t ")
                 .append("   Join public.").append(selectedRegion)
@@ -195,7 +199,7 @@ public class CountryController {
                 .append(" select COUNT(*) ")
                 .append(" from startYears s")
                 .append(" join endYears e on s.name = e.name and s.country_name = e.country_name ")
-                .append(" where s.country_name in('").append(selectedCountry).append("')");
+                .append(" where s.country_name in('").append(selectedCountry).append("')");}
 
         return query.toString();
 
@@ -206,6 +210,7 @@ public class CountryController {
         try (java.sql.Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = countTotalPage(region, startYears, endYears, selectedCountry);
 //            System.out.println(sqlQuery);
+            if(sqlQuery != null && !sqlQuery.isEmpty()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -215,7 +220,7 @@ public class CountryController {
                 }
             }
 
-        } catch (SQLException e) {
+        } }catch (SQLException e) {
             e.printStackTrace();
         }
 

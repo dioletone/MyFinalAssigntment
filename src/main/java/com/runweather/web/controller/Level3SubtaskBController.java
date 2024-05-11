@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.runweather.web.entity.country.readWithCsvBeanReader;
+
 
 @Controller
 public class Level3SubtaskBController {
@@ -96,6 +96,7 @@ public class Level3SubtaskBController {
         int length = 44/period;
         StringBuilder query = new StringBuilder();
         int j = 0;
+        if(length != 0){
         query.append("With");
         for ( int i = 0 ; i<length; i ++){
             query.append(" period").append(i)
@@ -138,7 +139,7 @@ public class Level3SubtaskBController {
                 .append(viewBY.equals("pop") ? "Avgpop" : "AvgTemp")
                 .append(" -(select ")
                 .append(viewBY.equals("pop") ? "Avgpop" : "AvgTemp")
-                .append(" from period0))) asc )");
+                .append(" from period0))) asc )");}
 
 
 
@@ -164,6 +165,7 @@ public class Level3SubtaskBController {
                     minPopulation, maxPopulation, page, pageSize, sortType, sortColumn,viewBy);
             System.out.println(sqlQuery);
 
+if(sqlQuery != null && !sqlQuery.isEmpty()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 ResultSetMetaData metaData = resultSet.getMetaData();
@@ -183,7 +185,7 @@ public class Level3SubtaskBController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -363,6 +365,7 @@ public class Level3SubtaskBController {
         int length = 44/period;
 
         int j = 0;
+        if(length != 0 ){
         query.append("select count(*) from (With");
         for ( int i = 0 ; i<length; i ++){
             query.append(" period").append(i)
@@ -390,7 +393,7 @@ public class Level3SubtaskBController {
                 .append(" union all (")
                 .append(" select *")
                 .append(" from result0 r")
-                .append(" order by ABS((r.AvgTemp -(select AvgTemp from period0))) asc ))");
+                .append(" order by ABS((r.AvgTemp -(select AvgTemp from period0))) asc ))");}
 
 
 
@@ -408,6 +411,7 @@ public class Level3SubtaskBController {
             String sqlQuery = countTotalPage(region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation);
 //            System.out.println(sqlQuery);
+            if(sqlQuery != null && !sqlQuery.isEmpty()){
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -417,7 +421,7 @@ public class Level3SubtaskBController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -683,14 +687,7 @@ if ("temp".equals(parsedViewBy)){
         List<stateDto> states = stateService.getAllStates();
         String filePath = "/Users/phanmanhha/Documents/web/Csv/country.csv";
 
-        try {
-            List<country> countrieList = country.readWithCsvBeanReader(filePath);
-            System.out.println(countrieList.get(1));
-            // Process the list of countries
-        } catch (IOException e) {
-            // Handle the IOException (e.g., log it or show an error message)
-            e.printStackTrace();
-        }
+
         boolean isViewByTemp = false;
         if ("temp".equals(parsedViewBy) || "true".equals(parsedViewBy)) { isViewByTemp = true;}
         boolean isViewByPop = false;
