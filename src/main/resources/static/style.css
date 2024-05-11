@@ -1,0 +1,604 @@
+@media print {
+    .table, .table__body {
+        overflow: visible;
+        height: auto !important;
+        width: auto !important;
+    }
+}
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    flex-direction: column;
+    height: fit-content;
+    background-color: #e0f2f1;
+}
+
+/* Main Table Styles */
+main.table {
+    width: 96%;
+    height: 90vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    left: 30px;
+    margin-bottom: 20px;
+}
+
+.table__header {
+    width: 100%;
+    height: 20%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: .8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table__body {
+    width: 95%;
+    max-height: calc(89% - 1.6rem);
+    background-color: #fffb;
+    margin: .8rem auto;
+    border-radius: .6rem;
+    overflow: auto;
+    overflow: scroll;
+}
+
+/* Scrollbar Styles */
+.table__body::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.table__body::-webkit-scrollbar-thumb {
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+tbody tr {
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay), background-color 0s;
+}
+
+tbody tr.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+tbody tr:hover {
+    background-color: #fff6 !important;
+}
+
+/* Status Styles */
+.status {
+    padding: .4rem 0;
+    border-radius: 2rem;
+    text-align: center;
+}
+
+.status.delivered {
+    background-color: #86e49d;
+    color: #006b21;
+}
+
+.status.cancelled {
+    background-color: #d893a3;
+    color: #b30021;
+}
+
+.status.pending {
+    background-color: #ebc474;
+}
+
+.status.shipped {
+    background-color: #6fcaea;
+}
+
+/* Responsive Styles */
+@media (max-width: 1000px) {
+    td:not(:first-of-type) {
+        min-width: 12.1rem;
+    }
+}
+.mid-container {
+    background-color: #FAFAFA;
+    width: 80%;
+    margin: 30px auto;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.mid-container .title h3 {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.mid-container .filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.mid-container .one {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.mid-container .one p {
+    margin: 0;
+}
+
+.mid-container .two button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.mid-container .two button:hover {
+    background-color: #0056b3;
+}
+
+.mid-container .modal {
+    display: none; /* Hide the modal by default */
+}
+
+/* Style for modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Center modal vertically */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 550px;
+    border-radius: 10px;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.box-scroll {
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add padding to the container */
+    border: 1px solid #ccc; /* Add a border for visual clarity */
+    border-radius: 5px; /* Add rounded corners */
+    width: 96%; /* Adjust the width as needed */
+    height: 500px; /* Adjust the height as needed */
+    scrollbar-width: normal; /* Ensure scrollbar is visible */
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+
+    /* Add box shadow for hover effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect */
+.box-scroll:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Customize scrollbar */
+.box-scroll::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+.box-scroll::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+}
+
+.box-scroll::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+}
+
+.options {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Add a border for visual clarity */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Style individual list items */
+.options li {
+    padding: 10px; /* Add padding to each list item */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Add transition for smooth background color change */
+}
+
+/* Change background color on hover */
+.options li:hover {
+    background-color: #f1f1f1; /* Change background color on hover */
+}
+
+/* Customize scrollbar */
+.options::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+}
+
+.options::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 5px; /* Add rounded corners to the scrollbar thumb */
+}
+
+.options::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add bottom border to separate rows */
+}
+
+thead th {
+    background-color: #f2f2f2; /* Light gray background for header */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background color */
+}
+
+tbody tr:hover {
+    background-color: #e9e9e9; /* Lighter background color on hover */
+}/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Add bottom border to separate rows */
+    color: #333; /* Text color */
+}
+
+thead th {
+    background-color: #4CAF50; /* Green background for header */
+    font-weight: bold;
+    color: white; /* Text color */
+    text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #E8F5E9; /* Light green background for even rows */
+}
+
+tbody tr:hover {
+    background-color: #C8E6C9; /* Lighter green background on hover */
+}
+/* Header Styles */
+.header {
+    background-color: #87CEEB; /* Sky-like blue color */
+    padding: 20px;
+    color: white; /* Text color */
+}
+
+/* Content Styles */
+.content {
+    background-color: #228B22; /* Forest green color */
+    padding: 20px;
+    color: white; /* Text color */
+}
+/* Navbar Styles */
+.navbar {
+    background-color: #87CEEB; /* Sky-like blue color */
+    padding: 20px;
+    color: white; /* Text color */
+    border-radius: 5px;
+}
+
+.navbar img {
+    width: 30px; /* Adjust the width of the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add some spacing between the image and text */
+}
+/* Style for the search box */
+.search-box {
+    margin-bottom: 10px;
+}
+
+/* Style for the country list */
+.country-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Optional: Style for the list items */
+.country-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.country-list li:hover {
+    background-color: #f0f0f0;
+}
+.search-box {
+    margin-bottom: 20px;
+}
+
+#countrySearch {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+.footer {
+    background: linear-gradient(to top, #004d92, #0096d1); /* Gradient from dark blue to lighter blue */
+
+    text-align: center;
+    color: white; /* Text color */
+    height: 10%;
+    padding: 0;
+}
+
+.footer-content {
+    position: relative;
+    z-index: 1;
+}
+.form-check label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-form {
+    display: inline-block;
+}
+
+.circle-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+}
+.main-content {
+margin-top: 30px;
+}
+.green-grid {
+    background-color: lightgreen;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkgreen;
+}
+
+.orange-grid {
+    background-color: orange;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkorange;
+}
+
+.red-grid {
+    background-color: orangered;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid darkred;
+
+}
+.green-grid, .orange-grid, .red-grid {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.green-grid:hover, .orange-grid:hover, .red-grid:hover {
+    border-color: black;
+}
+
+.green-grid:hover h3, .orange-grid:hover h3, .red-grid:hover h3 {
+    color: black;
+}
+
+.green-grid:hover p, .orange-grid:hover p, .red-grid:hover p {
+    color: black;
+}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column/* Adjust as needed */
+}
+
+.flex-item {
+    flex-basis: calc(33.33% - 20px); /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+hr {
+    border: dot-dash darkblue; /* Remove default border */
+    height: 1px; /* Set the height of the line */
+    background-color: #ccc; /* Set the background color of the line */
+    margin: 20px 0;
+}
+/* Container for the form */
+.two {
+    margin: 20px auto;
+    width: 300px;
+}
+
+/* Style for form inputs and labels */
+
+
+.input input {
+
+    border-radius: 5px;
+
+}
+
+/* Apply button */
+.apply-section {
+    text-align: center;
+    margin-top: 10px; /* Added margin-top for separation */
+}
+.input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.apply-section button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.apply-section button:hover {
+    background-color: #0056b3;
+}
+.highlight {
+    background-color: yellow;
+}
+.row {
+    height: fit-content !important; /* Adjust the height to fit its content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-item {
+    flex-basis: 30%; /* Adjust as needed */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.flex-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.flex-item p {
+    margin-top: 10px;
+}
+table {
+    width: 100%; /* Make the table take up 100% of its container */
+    border-collapse: collapse; /* Collapse table borders */
+}
+
+
+svg {
+    position: absolute; /* Set position to absolute */
+    top:15px; /* Align SVG to the top */
+    right: 0; /* Align SVG to the right */
+visibility: hidden;
+    margin-left: 5px/* Add some margin for spacing */;
+
+}
+
+
+
+
+
+
+
+
+
+

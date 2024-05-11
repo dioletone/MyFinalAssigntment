@@ -1,0 +1,242 @@
+id,name,country_id
+1,Adygey,72
+2,Alabama,48
+3,Arkhangel'Sk,72
+4,Belgorod,72
+5,Bryansk,72
+6,Chuvash,72
+7,City Of St. Petersburg,72
+8,Connecticut,48
+9,Delaware,48
+10,District Of Columbia,48
+11,Florida,48
+12,Georgia (State),48
+13,Illinois,48
+14,Indiana,48
+15,Iowa,48
+16,Ivanovo,72
+17,Kaliningrad,72
+18,Kaluga,72
+19,Karelia,72
+20,Kentucky,48
+21,Kirov,72
+22,Komi,72
+23,Komi Permyak,72
+24,Kostroma,72
+25,Krasnodar,72
+26,Kursk,72
+27,Leningrad,72
+28,Lipetsk,72
+29,Maine,48
+30,Mariy El,72
+31,Maryland,48
+32,Massachusetts,48
+33,Michigan,48
+34,Minnesota,48
+35,Missouri,48
+36,Mordovia,72
+37,Moscow City,72
+38,Moskva,72
+39,Murmansk,72
+40,Nenets,72
+41,New Brunswick,47
+42,New Hampshire,48
+43,New Jersey,48
+44,New York,48
+45,Newfoundland And Labrador,47
+46,Nizhegorod,72
+47,North Carolina,48
+48,Nova Scotia,47
+49,Novgorod,72
+50,Ohio,48
+51,Ontario,47
+52,Orel,72
+53,Pennsylvania,48
+54,Penza,72
+55,Perm',72
+56,Prince Edward Island,47
+57,Pskov,72
+58,Rhode Island,48
+59,Rostov,72
+60,Ryazan',72
+61,Samara,72
+62,Saratov,72
+63,Smolensk,72
+64,South Carolina,48
+65,Tambov,72
+66,Tatarstan,72
+67,Tennessee,48
+68,Tula,72
+69,Tver',72
+70,Udmurt,72
+71,Ul'Yanovsk,72
+72,Vermont,48
+73,Virginia,48
+74,Vladimir,72
+75,Volgograd,72
+76,Vologda,72
+77,Voronezh,72
+78,West Virginia,48
+79,Wisconsin,48
+80,Yaroslavl',72
+81,Arkansas,48
+82,Louisiana,48
+83,Mississippi,48
+84,Alberta,47
+85,Kansas,48
+86,Manitoba,47
+87,Montana,48
+88,Nebraska,48
+89,North Dakota,48
+90,Northwest Territories,47
+91,Nunavut,47
+92,Saskatchewan,47
+93,South Dakota,48
+94,Oklahoma,48
+95,Wyoming,48
+96,Bashkortostan,72
+97,Kalmyk,72
+98,Karachay Cherkess,72
+99,Stavropol',72
+100,Astrakhan',72
+101,Chechnya,72
+102,Chelyabinsk,72
+103,Dagestan,72
+104,Ingush,72
+105,Kabardin Balkar,72
+106,Kurgan,72
+107,North Ossetia,72
+108,Orenburg,72
+109,Sverdlovsk,72
+110,Andaman And Nicobar,61
+111,Andhra Pradesh,61
+112,Bihar,61
+113,Chhattisgarh,61
+114,Dadra And Nagar Haveli,61
+115,Daman And Diu,61
+116,Delhi,61
+117,Goa,61
+118,Gujarat,61
+119,Haryana,61
+120,Jharkhand,61
+121,Karnataka,61
+122,Kerala,61
+123,Madhya Pradesh,61
+124,Maharashtra,61
+125,Meghalaya,61
+126,Mizoram,61
+127,Orissa,61
+128,Puducherry,61
+129,Rajasthan,61
+130,Sikkim,61
+131,Tamil Nadu,61
+132,Tripura,61
+133,Uttar Pradesh,61
+134,West Bengal,61
+135,Khanty Mansiy,72
+136,Omsk,72
+137,Tyumen',72
+138,Yamal Nenets,72
+139,Arunachal Pradesh,61
+140,Assam,61
+141,Chandigarh,61
+142,Himachal Pradesh,61
+143,Jammu And Kashmir,61
+144,Manipur,61
+145,Nagaland,61
+146,Punjab,61
+147,Qinghai,83
+148,Sichuan,83
+149,Uttaranchal,61
+150,Xizang,83
+151,Yunnan,83
+152,Tomsk,72
+153,Novosibirsk,72
+154,Aga Buryat,72
+155,Altay,72
+156,Amur,72
+157,Beijing,83
+158,Buryat,72
+159,Chita,72
+160,Colorado,48
+161,Evenk,72
+162,Gansu,83
+163,Gorno Altay,72
+164,Hebei,83
+165,Heilongjiang,83
+166,Irkutsk,72
+167,Jilin,83
+168,Kemerovo,72
+169,Khakass,72
+170,Krasnoyarsk,72
+171,Liaoning,83
+172,Nei Mongol,83
+173,New Mexico,48
+174,Ningxia Hui,83
+175,Shaanxi,83
+176,Shanxi,83
+177,Taymyr,72
+178,Texas,48
+179,Tianjin,83
+180,Tuva,72
+181,Ust Orda Buryat,72
+182,Xinjiang Uygur,83
+183,Idaho,48
+184,Utah,48
+185,Roraima,120
+186,Alaska,48
+187,British Columbia,47
+188,Nevada,48
+189,Oregon,48
+190,Washington,48
+191,Yukon,47
+192,Khabarovsk,72
+193,Maga Buryatdan,72
+194,Primor'Ye,72
+195,Sakha,72
+196,Sakhalin,72
+197,Yevrey,72
+198,Alagoas,120
+199,Bahia,120
+200,Distrito Federal,120
+201,Kamchatka,72
+202,Koryak,72
+203,Mato Grosso,120
+204,Mato Grosso Do Sul,120
+205,Minas Gerais,120
+206,Pernambuco,120
+207,Rio De Janeiro,120
+208,Rio Grande Do Sul,120
+209,Santa Catarina,120
+210,Sergipe,120
+211,Tocantins,120
+212,Arizona,48
+213,Chukot,72
+214,Shandong,83
+215,Chongqing,83
+216,Guangdong,83
+217,Guangxi,83
+218,Guizhou,83
+219,Hainan,83
+220,Henan,83
+221,Hubei,83
+222,Hunan,83
+223,Anhui,83
+224,Australian Capital Territory,167
+225,Fujian,83
+226,Jiangsu,83
+227,Jiangxi,83
+228,New South Wales,167
+229,Shanghai,83
+230,South Australia,167
+231,Tasmania,167
+232,Victoria,167
+233,Zhejiang,83
+234,Amazonas,120
+235,California,48
+236,Rio Grande Do Norte,120
+237,Western Australia,167
+238,Acre,120
+239,Northern Territory,167
+240,Queensland,167
+241,Hawaii,48

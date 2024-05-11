@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>My Capstone</title>
+    <link th:href="@{/style.css}"  rel="stylesheet">
+</head>
+<body>
+<!-- headers-->
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark text-bg-secondary" aria-label="Offcanvas navbar large">
+        <img th:src="@{/sun.png}" alt="Bee Icon">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cloud-fill" viewBox="0 0 16 16">
+                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383"/>
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-secondary" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Offcanvas</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/mission">Mission Statement</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                High-level Data
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/subtaskA/global">SubtaskA-Global</a></li>
+                                <li><a class="dropdown-item" href="/subtaskA/countries">SubtaskB-Country</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Deep Data
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB?region=Country">SubtaskB</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<!--middle cotain-->
+
+<div class="mid-container">
+    <div class="title">
+        <h3><span>Deep-level Data</span> > Subtask A </h3>
+    </div>
+    <div class="filter">
+        <div class="one">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg>
+            <p>Filter</p>
+
+
+        </div>
+        <div class="two">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Fitures List
+            </button>
+
+            <!-- Modal -->
+
+            <div class="modal fade list-items" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Features List</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/level3SubtaskA}" th:method="get">
+
+                            <!--Script content-->
+
+                                <div class="box-scroll">
+
+                                    <ul class="options">
+
+                                        <li><div class="input">
+                                            <label for="">Region</label>
+                                            <select id="region" name="region">
+                                                <option th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}"
+                                                        th:text="${region.name}" th:selected="${region.selected}">
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">Periods Time</label>
+                                                <input type="number" name="yearPeriod" id="yearPeriod" th:value="${modelView.yearPeriod}">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">Startting Year</label>
+                                                <input  name="startingYears" id="startingYears" th:value="${#strings.listJoin(modelView.startingYears,',')}">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">First AVG</label>
+                                                <input type="number" name="minAverageChange" id="minAverageChange" th:value="${modelView.minAverageChange}">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">Last AVG</label>
+                                                <input type="number" name="maxAverageChange" id="maxAverageChange" th:value="${modelView.maxAverageChange}">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">First Population</label>
+                                                <input type="number" name="minPopulation" id="minPopulation" th:value="${modelView.minPopulation}">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input">
+                                                <label for="">Last Population</label>
+                                                <input type="number" name="maxPopulation" id="maxPopulation" th:value="${modelView.maxPopulation}">
+                                            </div>
+                                        </li>
+                                    </ul>
+
+
+
+
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <form th:action="@{/level3SubtaskA}" th:method="get">
+            <button type="submit" class="btn btn-primary" >Reset</button></form>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+    <!-- table-->
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h1>Weather Data Table</h1>
+            <div>
+                <h2 th:text="${selectedRegion.name}"></h2>
+
+            </div>
+
+
+        </section>
+        <section class="table__body">
+            <table>
+
+                <div class="applyData" th:if = "${lengthData == 0} "  >
+                    <h2 style="font-size: 18px; font-weight: 700;float: left;  ">Apply Filter To Display Data Or No Data </h2>
+                    <img src="/apply-data.png" style="height: 50%; width: 50%; justify-content: center;align-items: center">
+
+                </div>
+
+                <div class="" th:if = "${lengthData >0 } ">
+                    <thead>
+                    <tr>
+                        <th th:each="header, headerIndex : ${modelView.table.header}"  >
+                            <p th:text="${header}"></p>
+                            <a
+                                    th:href="@{/level3SubtaskA(region=${selectedRegion.name},yearPeriod=${modelView.yearPeriod}, startingYears=${#strings.listJoin(modelView.startingYears, ',')},minAverageChange=${modelView.minAverageChange},maxAverageChange=${modelView.maxAverageChange},minPopulation=${modelView.minPopulation},maxPopulation=${modelView.maxPopulation}, sortType=${nextSortType}, sortColumn=${(headerIndex.index)-1})}">
+                                <svg th:if="${headerIndex.index >0}" width="16" height="17" viewBox="0 0 16 17"
+                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                            d="M8.47157 2.69526C8.34654 2.57024 8.17697 2.5 8.00016 2.5C7.82335 2.5 7.65378 2.57024 7.52876 2.69526L3.52876 6.69526C3.26841 6.95561 3.26841 7.37772 3.52876 7.63807C3.78911 7.89842 4.21122 7.89842 4.47157 7.63807L8.00016 4.10948L11.5288 7.63807C11.7891 7.89842 12.2112 7.89842 12.4716 7.63807C12.7319 7.37772 12.7319 6.95561 12.4716 6.69526L8.47157 2.69526Z"
+                                            fill="#85858A" />
+                                    <path
+                                            d="M8.47157 14.9714C8.34654 15.0964 8.17697 15.1667 8.00016 15.1667C7.82335 15.1667 7.65378 15.0964 7.52876 14.9714L3.52876 10.9714C3.26841 10.7111 3.26841 10.2889 3.52876 10.0286C3.78911 9.76825 4.21122 9.76825 4.47157 10.0286L8.00016 13.5572L11.5288 10.0286C11.7891 9.76825 12.2112 9.76825 12.4716 10.0286C12.7319 10.2889 12.7319 10.7111 12.4716 10.9714L8.47157 14.9714Z"
+                                            fill="#85858A" />
+                                </svg>
+                            </a>
+
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  th:each=" row: ${modelView.table.data }" >
+                        <td th:each=" cell,cellIndex: ${row }" >
+                    <span th:text="${cell}" >
+
+                        </span>
+                        </td>
+
+                        <td>
+
+
+                    </tr>
+
+
+                    </tbody>
+                </div>
+            </table>
+        </section>
+    </main>
+</div>
+
+
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; 2024 Climate Analysis Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+
+<!--footer-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script th:src="@{/script.js}">
+    function resetFilter (path) {
+        var url = '/level3SubtaskA' + path
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>
