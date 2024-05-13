@@ -498,9 +498,14 @@ margin-top: 30px;
 }
 
 .flex-item {
-    flex-basis: calc(33.33% - 20px); /* Adjust as needed */
-    margin-bottom: 20px; /* Adjust as needed */
+    width: fit-content; /* Adjust width to fit content */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
+
 hr {
     border: dot-dash darkblue; /* Remove default border */
     height: 1px; /* Set the height of the line */
@@ -592,6 +597,7 @@ visibility: hidden;
     margin-left: 5px/* Add some margin for spacing */;
 
 }
+
 
 
 

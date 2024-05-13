@@ -1,6 +1,10 @@
 package com.runweather.web.controller;
 
+import com.runweather.web.dto.cityDto;
 import com.runweather.web.dto.countryDto;
+import com.runweather.web.dto.stateDto;
+import com.runweather.web.service.cityService;
+import com.runweather.web.service.stateService;
 import com.runweather.web.viewEntity.level3SubtaskA.Region;
 import com.runweather.web.viewEntity.level3SubtaskA.Table;
 import com.runweather.web.viewEntity.level3SubtaskA.level3SubtaskA;
@@ -20,10 +24,13 @@ import java.util.List;
 public class Level3SubtaskAController {
     private com.runweather.web.viewEntity.level3SubtaskA.level3SubtaskA level3SubtaskA;
     private com.runweather.web.service.countryService countryService;
-
+    private com.runweather.web.service.cityService cityService;
+    private com.runweather.web.service.stateService stateService;
     @Autowired
-    public Level3SubtaskAController(com.runweather.web.service.countryService countryService) {
+    public Level3SubtaskAController(com.runweather.web.service.countryService countryService, cityService cityService, stateService stateService) {
         this.countryService = countryService;
+        this.cityService = cityService;
+        this.stateService = stateService;
     }
 
     @Value("${spring.datasource.url}")
@@ -34,6 +41,9 @@ public class Level3SubtaskAController {
 
     @Value("${spring.datasource.password}")
     private String password;
+
+
+
 
     //Parsing startYears
     private int[] parseStartingYears(String startingYears) {
@@ -56,7 +66,7 @@ public class Level3SubtaskAController {
     }
 
     //Generate query
-    public static String generateQuery(String region, int[] startingYears, int period, double minAverageChange,
+    public static String generateQuery(String region,ArrayList<String> selectedString, int[] startingYears, int period, double minAverageChange,
                                        double maxAverageChange, long minPopulation, long maxPopulation, int page, int pageSize, String sortType,
                                        String sortColumn) {
         String selectedRegion = null;
@@ -102,7 +112,9 @@ public class Level3SubtaskAController {
 
 
 
+
         StringBuilder query = new StringBuilder();
+        if (startingYears.length > 0) {
         query.append("With ");
         for (int i = 0; i < startingYears.length; i++) {
 
@@ -117,6 +129,16 @@ public class Level3SubtaskAController {
            else { query.append("id");}
            query.append("   Join population p on c.id = p.country_id and t.year = p.year")
                 .append("   Where t.year = ").append(startingYears[i]);
+            if(selectedString != null && !selectedString.isEmpty()) {
+                query.append(" and c1.").append(selectedName).append(" in (");
+                for (int j = 0; j < selectedString.size(); j++) {
+                    query.append("'"+selectedString.get(j)+"'");
+                    if (j<selectedString.size()-1) {
+                        query.append(",");
+                    }
+                }
+                query.append(")");
+            }
             if(minPopulation != 0 && maxPopulation != 0) { query.append(" and p.number between ").append(minPopulation).append(" and ").append(maxPopulation);}
             if(minAverageChange != 0 && maxAverageChange != 0) {query.append(" and t.average_temp between ").append(minAverageChange).append(" and ").append(maxAverageChange);}
            query.append(" Group By c1.").append(selectedName)
@@ -133,6 +155,16 @@ public class Level3SubtaskAController {
             else { query.append("id");}
             query.append("   Join population p on c.id = p.country_id and t.year = p.year")
                     .append("   Where t.year = ").append(startingYears[i]+period);
+            if(selectedString != null && !selectedString.isEmpty()) {
+                query.append(" and c1.").append(selectedName).append(" in (");
+                for (int j = 0; j < selectedString.size(); j++) {
+                    query.append("'"+selectedString.get(j)+"'");
+                    if (j<selectedString.size()-1) {
+                        query.append(",");
+                    }
+                }
+                query.append(")");
+            }
             if(minPopulation != 0 && maxPopulation != 0) { query.append(" and p.number between ").append(minPopulation).append(" and ").append(maxPopulation);}
             if(minAverageChange != 0 && maxAverageChange != 0) {query.append(" and t.average_temp between ").append(minAverageChange).append(" and ").append(maxAverageChange);}
             query.append(" Group By c1.").append(selectedName)
@@ -163,7 +195,7 @@ public class Level3SubtaskAController {
         query.append(" )) as rank ");
                 query.append(" from resultData0 r0");
         for (int i = 1; i < startingYears.length; i++) {
-            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".rname").append(" = r").append(i).append(".rname");}
+            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".rname").append(" = r").append(i).append(".rname");}}
 
 
 
@@ -179,16 +211,16 @@ public class Level3SubtaskAController {
         return query.toString();
     }
 
-    public String[][] executeQuery(String region, int[] startingYears, int period, double minAverageChange,
+    public String[][] executeQuery(String region,ArrayList<String> selectedString, int[] startingYears, int period, double minAverageChange,
                                    double maxAverageChange, long minPopulation, long maxPopulation, int page, int pageSize, String sortType,
                                    String sortColumn) {
         List<String[]> resultRows = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sqlQuery = generateQuery(region, startingYears, period, minAverageChange, maxAverageChange,
+            String sqlQuery = generateQuery(region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation, page, pageSize, sortType, sortColumn);
             System.out.println(sqlQuery);
-
+            if(sqlQuery != null && !sqlQuery.isEmpty()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 ResultSetMetaData metaData = resultSet.getMetaData();
@@ -208,7 +240,7 @@ public class Level3SubtaskAController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -247,6 +279,7 @@ public class Level3SubtaskAController {
             selectedRegion = "global";
             selectedId = "global_id";
         }
+        if( startingYears.length >0){
         query.append("With ");
         for (int i = 0; i < startingYears.length; i++) {
 
@@ -297,8 +330,8 @@ public class Level3SubtaskAController {
 
 
         query.append(" Select COUNT(*)").append(" from resultData0 r0");
-        for (int i = 1; i < startingYears.length-1; i++) {
-            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".").append(selectedRegion).append(" = r").append(i).append(".").append(selectedRegion);}
+        for (int i = 1; i < startingYears.length; i++) {
+            query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".").append(selectedRegion).append(" = r").append(i).append(".").append(selectedRegion);}}
 
 
 
@@ -315,6 +348,7 @@ public class Level3SubtaskAController {
             String sqlQuery = countTotalPage(region, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation);
 //            System.out.println(sqlQuery);
+            if(sqlQuery != null && !sqlQuery.isEmpty()){
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -324,7 +358,7 @@ public class Level3SubtaskAController {
                 }
             }
 
-        } catch (SQLException e) {
+        }} catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -360,6 +394,7 @@ public class Level3SubtaskAController {
 
     @GetMapping("/level3SubtaskA")
     public String listGlobal(Model model,
+                             @RequestParam(name = "selectedString",required = false) ArrayList<String> selectedString,
                              @RequestParam(name = "yearPeriod", required = false) String yearPeriod,
                              @RequestParam(name = "region", required = false) String region,
                              @RequestParam(name = "startingYears", required = false) String startingYears,
@@ -388,7 +423,15 @@ public class Level3SubtaskAController {
         long parsedMaxPopulation = 0;
         int parsedPage = 1;
 
-        int[] parsedStartingYears = parseStartingYears(startingYears);
+        int[] parsedStartingYears = new int[0];
+        if(startingYears != null && !startingYears.isEmpty()){
+            try {
+                parsedStartingYears = parseStartingYears(startingYears);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("parsedStartingYears: " + parseStartingYears(startingYears));
         if (minAverageChange != null && !minAverageChange.isEmpty()) {
             try {
                 parsedMinAverageChange = Double.parseDouble(minAverageChange);
@@ -429,13 +472,14 @@ public class Level3SubtaskAController {
                 e.printStackTrace();
             }
         }
+
         int[] staringYears = parseStartingYears(startingYears);
         int lengthOfYears =1;
         int[] parsedYears ={1};
         if (startingYears != null && !startingYears.isEmpty()) {
             lengthOfYears =staringYears.length;
             String[] yearsArray = startingYears.split(",");
-             parsedYears = new int[yearsArray.length];
+            parsedYears = new int[yearsArray.length];
             for (int i = 0; i < yearsArray.length; i++) {
                 try {
                     parsedYears[i] = Integer.parseInt(yearsArray[i].trim());
@@ -456,13 +500,11 @@ public class Level3SubtaskAController {
         System.out.println(dynamicHeader[dynamicHeader.length-1]);
 
 
-        String[][] data = executeQuery(region, parsedStartingYears, parsedYearPeriod, parsedMinAverageChange,
+
+
+        String[][] data = executeQuery(region, selectedString, parsedStartingYears, parsedYearPeriod, parsedMinAverageChange,
                 parsedMaxAverageChange, parsedMinPopulation, parsedMaxPopulation, parsedPage, pageSize, sortType,
                 sortColumn);
-        double totalPageDouble = (double) executeCount(region, parsedStartingYears, parsedYearPeriod, parsedMinAverageChange,
-                parsedMaxAverageChange, parsedMinPopulation, parsedMaxPopulation) / pageSize;
-
-        int totalPage = (int) Math.ceil(totalPageDouble);
 
         Table table = new Table(dynamicHeader,data);
         ArrayList<com.runweather.web.viewEntity.level3SubtaskA.Region> regions = convertStringToRegion(region);
@@ -477,7 +519,7 @@ public class Level3SubtaskAController {
         modelView.setMinPopulation(parsedMinPopulation);
         modelView.setMaxPopulation(parsedMaxPopulation);
         modelView.setPage(parsedPage);
-        modelView.setTotalPage(totalPage);
+
         modelView.setTable(table);
 
 
@@ -503,9 +545,34 @@ Region selectedRegion = findSelectedRegion(regions);
         modelView.setSortType((sortType != null && !sortType.isEmpty()) ? sortType : "");
         int length = modelView.getTable().getData().length;
         List<countryDto> countries = countryService.findAllCountry();
+        List<cityDto> cities = cityService.getAllCities();
+        List<stateDto> states = stateService.getAllStates();
+String listYear = "";
+for (int i = 0 ; i< parsedStartingYears.length; i ++){
+    listYear += parsedStartingYears[i];
+    if ( i < parsedStartingYears.length-1){ listYear += ",";}
+
+}
+        ArrayList<String> selectedList = new ArrayList<>();
+        if(selectedString != null && !selectedString.isEmpty()){
+            try {
+
+
+                selectedList = selectedString;}
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        model.addAttribute("listYear", listYear);
+        model.addAttribute("countries", countries);
+        model.addAttribute("cities", cities);
+        model.addAttribute("states", states);
         model.addAttribute("selectedRegion", selectedRegion);
         model.addAttribute("lengthData", length);
         model.addAttribute("modelView", modelView);
+        model.addAttribute("selectedList", selectedList);
 
 
 

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface temperatureRepository extends JpaRepository<temperature, Integer> {
-List<temperature> findAll();
+//List<temperature> findAll();
 }

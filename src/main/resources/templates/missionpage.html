@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@
             gap: 20px;
         }
         .flex-item {
-            width: 200px;
+            width: fit-content;
             height: 300px;
             background-color: lightblue;
             border: 1px solid black;
@@ -29,6 +29,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 10px;
+            flex-direction: column;
+            margin-left: 30px;
+            margin-right: 30px;
         }
     </style>
 </head>
@@ -38,11 +42,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark text-bg-secondary" aria-label="Offcanvas navbar large">
         <img th:src="@{/sun.png}" alt="Bee Icon">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cloud-fill" viewBox="0 0 16 16">
-                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383"/>
-                </svg>
-            </a>
+            <a href="/">
+                <img th:src="@{/cloud.png}"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -125,28 +126,43 @@
                 <h3>Red Level</h3>
                 <p>Sub-Task A involves identifying temperature changes over specified periods. Users can select either a single region or multiple regions and define periods by starting year, length (in years), and geographic scope (global, country, state, or city). For a single region, the system computes the average temperature over the selected period. In the case of multiple periods within a single region, average temperatures are calculated for each period, and rankings are provided based on these averages. Similarly, for multiple regions and periods, average temperatures are determined and ranked accordingly. Additionally, users have the option to filter results based on specified ranges of average temperature and population for countries.
                     Sub-Task B,  users can explore periods with similar temperatures and populations by selecting a period defined by starting year, length (in years), and geographic region (country, state, or city). They specify a positive integer (<x>) to indicate the number of similar periods they want to view. The system calculates similarity based on user-selected properties, ensuring consistency in comparison by maintaining the same geographic level granularity. Similarity can be assessed based on average temperature alone, population alone (for countries), or both average temperature and population (for countries). It quantifies similarity as the average value of either average temperatures or population for single-property comparisons and as the average value of similarity for combined comparisons. The system then presents the <x> most similar periods, excluding the selected period, showcasing regions, start years, and similarity values. These periods are sorted from the most similar to the least similar. For example, if a user selects a period starting in 1900 with a duration of 10 years for the region 'Australia' and specifies a desire to view the 5 most similar periods based on average temperature alone, the system computes the similarity for all countries (including Australia) over the specified length of 10 years. Then, it displays the top 5 most similar regions in descending order of similarity.
-                </p>
+                </p>>
             </div>
         </div>
     </div>
     <hr>
 
     <div class="row">
+        <h2 style="margin-bottom: 15px; font-family: 'Noto Sans Myanmar'; font-weight: bolder; color: burlywood">Personas</h2>
         <div class="flex-container1">
-            <div class="flex-item">Card 1</div>
-            <div class="flex-item">
-                <p>The temperature dataset is from 1750 – 2013 at a worldwide, country, state, and city level granularity, while the population data is from 1960 – 2013 at a worldwide and country level granularity.</p>
-                <!-- Content for second grid -->
+            <div class="flex-item" th:each="persona : ${personas}">
+                <h3 th:text="${persona.name}"></h3><br>
+                <h5 style="color: salmon">Background</h5>
+                <p th:text="${persona.background}"></p><br>
+                <h5 style="color: salmon">Goals</h5>
+                <p th:text="${persona.goals}"></p><br>
+                <h5 style="color: salmon">Needs</h5>
+                <p th:text="${persona.needs}"> Needs</p><br>
+                <h5 style="color: salmon">Skills and Experiences</h5>
+                <p th:text="${persona.skillsAndExperiences}"></p><br>
+                <h5 style="color: salmon">Frustration</h5>
+                <p th:text="${persona.frustration}"></p>
+
             </div>
-            <div class="flex-item">
-                <!-- Content for third grid -->
-            </div>
+
+
         </div>
 
     </div>
     <hr>
     <div class ="row">
+        <h1 style="font-weight: bold; color: rebeccapurple"> Author</h1>
+        <div class="flex-item" th:each="student : ${students}" >
+                <h4 th:text="${student.name}"></h4>
+            <p>Student Id :<span th:text="${student.sid}"></span></p>
 
+
+        </div>
 
     </div>
 
