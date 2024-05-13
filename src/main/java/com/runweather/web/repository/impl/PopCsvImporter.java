@@ -40,7 +40,7 @@ public class PopCsvImporter {
                 population pop = new population();
 
                 String populationNumberString = record.get("population_number");
-                LOGGER.debug("Population Number String: \"{}\"", populationNumberString);
+                //LOGGER.debug("Population Number String: \"{}\"", populationNumberString);
 
                 Long populationNumber = parseLongOrNull(populationNumberString);
                 if (populationNumber == null) {

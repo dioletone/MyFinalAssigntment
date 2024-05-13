@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,7 +122,7 @@
                 <h3>Red Level</h3>
                 <p>Sub-Task A involves identifying temperature changes over specified periods. Users can select either a single region or multiple regions and define periods by starting year, length (in years), and geographic scope (global, country, state, or city). For a single region, the system computes the average temperature over the selected period. In the case of multiple periods within a single region, average temperatures are calculated for each period, and rankings are provided based on these averages. Similarly, for multiple regions and periods, average temperatures are determined and ranked accordingly. Additionally, users have the option to filter results based on specified ranges of average temperature and population for countries.
                     Sub-Task B,  users can explore periods with similar temperatures and populations by selecting a period defined by starting year, length (in years), and geographic region (country, state, or city). They specify a positive integer (<x>) to indicate the number of similar periods they want to view. The system calculates similarity based on user-selected properties, ensuring consistency in comparison by maintaining the same geographic level granularity. Similarity can be assessed based on average temperature alone, population alone (for countries), or both average temperature and population (for countries). It quantifies similarity as the average value of either average temperatures or population for single-property comparisons and as the average value of similarity for combined comparisons. The system then presents the <x> most similar periods, excluding the selected period, showcasing regions, start years, and similarity values. These periods are sorted from the most similar to the least similar. For example, if a user selects a period starting in 1900 with a duration of 10 years for the region 'Australia' and specifies a desire to view the 5 most similar periods based on average temperature alone, the system computes the similarity for all countries (including Australia) over the specified length of 10 years. Then, it displays the top 5 most similar regions in descending order of similarity.
-                </p>
+                </p>>
             </div>
         </div>
     </div>
@@ -130,20 +130,27 @@
 
     <div class="row">
         <div class="flex-container1">
-            <div class="flex-item">Card 1</div>
-            <div class="flex-item">
-                <p>The temperature dataset is from 1750 – 2013 at a worldwide, country, state, and city level granularity, while the population data is from 1960 – 2013 at a worldwide and country level granularity.</p>
-                <!-- Content for second grid -->
+            <div class="flex-item" th:each="persona : ${personas}">
+                <p th:text="${persona.name}"></p><br>
+                <p th:text="${persona.background}">Background</p><br>
+                <p th:text="${persona.goals}"></p><br>
+                <p th:text="${persona.needs}"> Needs</p><br>
+                <p th:text="${persona.skillsAndExperiences}"></p><br>
+                <p th:text="${persona.frustration}"></p>
+
             </div>
-            <div class="flex-item">
-                <!-- Content for third grid -->
-            </div>
+
+
         </div>
 
     </div>
     <hr>
     <div class ="row">
+        <div class="flex-item" th:each="student : ${students}">
+            <p th:text="${student.sid}"></p>
+            <p th:text="${student.name}"></p>
 
+        </div>
 
     </div>
 
