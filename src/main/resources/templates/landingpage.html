@@ -6,6 +6,195 @@
     <title>Climate Analysis Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/style.css}" rel="stylesheet">
+    <style>
+        .Section-1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .Content-1 {
+            max-width: 50%;
+        }
+
+        .block-1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .block-1 .title-part-one,
+        .block-1 .title-part-two {
+            display: inline-block;
+        }
+
+        .block-2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .block-2 .title-part-one,
+        .block-2 .title-part-two,
+        .block-2 .title-part-three,
+        .block-2 .title-part-four {
+            display: inline-block;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .Content-2 img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Section 2 styling */
+        .Section-2 {
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .Content-3, .Content-4 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .box svg {
+            margin-right: 10px;
+        }
+
+        .h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .card-1 {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .Section-1 {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .Content-1, .Content-2 {
+                max-width: 100%;
+            }
+
+            .Content-2 {
+                margin-top: 20px;
+            }
+
+            .Content-3, .Content-4 {
+                flex-direction: column;
+            }
+
+            .box {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .card-1 {
+                width: 100%;
+            }
+        }
+        /* Section 4 styling */
+        .Section-4 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            flex-wrap: wrap;
+
+        }
+
+        .Content-7 {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .block-5 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .block-6 {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .Content-8 {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Content-8 img {
+            max-width: fit-content;
+            height: 300px;
+            border-radius: 5px;
+        }
+
+        /* Responsive styling for Section 4 */
+        @media (max-width: 768px) {
+            .Section-4 {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .Content-7 {
+                width: 100%;
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .Content-8 {
+                width: 100%;
+            }
+
+            .Content-8 img {
+                width: 100%;
+            }
+        }
+
+
+    </style>
 </head>
 <body>
 <!-- Header -->
@@ -74,7 +263,61 @@
     </div>
 </main>
 
-<!-- Footer -->
+<div class = "Section-1">
+    <div class = "Content-1">
+        <div class = "block-1">
+                <span class = "title-part-one">
+                    Climate change is closer than
+                </span>
+            <span class = "title-part-two">
+                    you think.
+                </span>
+        </div>
+        <div class = "block-2">
+            <span class = "title-part-one">Over </span>
+            <span class = "title-part-two">100 years </span>
+            <span class = "title-part-one">worth of </span>
+            <span class = "title-part-two">Climate and Population </span>
+            <span class = "title-part-three">data to discover.</span>
+            <span class = "title-part-four">Witness the change yourself.</span>
+        </div>
+        <a href="/subtaskA/global" class="btn btn-primary">Explore</a>
+    </div>
+    <div class="Content-2">
+        <img th:src="@{/climate.png}">
+    </div>
+</div>
+<div class = "Section-3">
+    <h3 style="position: relative; left: 900px; font-weight: bold"> Deforestation</h3>
+    <div class = "Content-5" style="display: flex; ">
+        <img style="float: left" th:src = "@{/deforest.png}">
+        <div class = "block-4" style="float: right; font-size: larger">Deforestation is one of the most significant contributors to climate change.
+            Deforestation and forest degradation contribute to atmospheric greenhouse gas emissions
+            through combustion of forest biomass and decomposition of remaining plant material and soil carbon.</div>
+    </div>
+    </div>
+
+
+<div class = "Section-4">
+    <div class = "Content-7">
+        <div class = "block-5">Gas emissions</div>
+        <div class = "block-6">from human activities are one of the leading causes of
+            climate change since the mid-20th century. These gases don't escape the atmosphere but they build up
+            and trap heat in the atmosphere, leading to global warming.</div>
+        <div class = "block-7">As a result, melting glaciers</div>
+        <div class = "block-8">in the polar regions are causing sea levels to rise, submerging coastal areas,
+            endangering people living in such area. Furthermore, the melting of glaciers could potentially
+            unleash ancient viruses and bacteria that have been dormant for thousands of years, for which we have no prevention against.</div>
+    </div>
+<div class="Content-8">
+    <img th:src="@{/gas.png}">
+</div>
+    </div>
+
+
+
+
+        <!-- Footer -->
 <footer class="footer">
     <div class="container text-center">
         <p>&copy; 2024 Climate Analysis Platform. All rights reserved.</p>

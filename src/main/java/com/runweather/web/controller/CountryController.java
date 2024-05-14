@@ -131,7 +131,7 @@ public class CountryController {
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = generateQuery(region, startYears, endYears, page, pageSize, sortType, sortColumn, selectedCountry);
-            System.out.println(sqlQuery);
+
             if(sqlQuery != null && !sqlQuery.isEmpty()) {
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -164,69 +164,7 @@ public class CountryController {
 
     }
 
-    public static String countTotalPage(String region, int startYears, int endYears, String selectedCountry) {
-        StringBuilder query = new StringBuilder();
-        String selectedRegion = null;
-        String selectedId = null;
 
-
-        if ("City".equals(region)) {
-            selectedRegion = "city";
-            selectedId = "city_id";
-        } else if ("State".equals(region)) {
-            selectedRegion = "state";
-            selectedId = "state_id";
-        }
-        if(selectedRegion != null && !selectedRegion.isEmpty()) {
-        query.append("With startYears As ( Select c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
-                .append(" From temperature t ")
-                .append("   Join public.").append(selectedRegion)
-                .append("    c1 on c1.id = t.").append(selectedId)
-                .append("   Join country c on c.id = c1.country_id")
-                .append("   Join population p on c.id = p.country_id and t.year = p.year")
-                .append("   Where t.year = ").append(startYears)
-                .append(" Group By c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
-                .append("),")
-                .append(" endYears As ( Select c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
-                .append(" From temperature t ")
-                .append("   Join public.").append(selectedRegion)
-                .append("    c1 on c1.id = t.").append(selectedId)
-                .append("   Join country c on c.id = c1.country_id")
-                .append("   Join population p on c.id = p.country_id and t.year = p.year")
-                .append("   Where t.year = ").append(endYears)
-                .append(" Group By c1.name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp, c.country_name")
-                .append(")")
-                .append(" select COUNT(*) ")
-                .append(" from startYears s")
-                .append(" join endYears e on s.name = e.name and s.country_name = e.country_name ")
-                .append(" where s.country_name in('").append(selectedCountry).append("')");}
-
-        return query.toString();
-
-    }
-
-    public int executeCount(String region, int startYears, int endYears, String selectedCountry) {
-        int result = 0;
-        try (java.sql.Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sqlQuery = countTotalPage(region, startYears, endYears, selectedCountry);
-//            System.out.println(sqlQuery);
-            if(sqlQuery != null && !sqlQuery.isEmpty()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    // Fetch the result as a String
-                    result = resultSet.getInt(1);
-                }
-            }
-
-        } }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-
-    }
 
     private Region findSelectedRegion(ArrayList<Region> regions) {
         for (Region region : regions) {
@@ -288,7 +226,8 @@ public class CountryController {
         if (startYears != null && !startYears.isEmpty()) {
             try {
                 parsedStartYears = Integer.parseInt(startYears);
-                System.out.println(parsedStartYears);
+
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -304,9 +243,6 @@ public class CountryController {
         String[] dynamicHeader = new String[]{"Name", "Average Temperature", "Maximum Temperature", "Minimum Temperature","Correlation","Rank-AVG","Rank-MAX","Rank-MIN"};
 
         String[][] data = executeQuery(region, parsedStartYears, parsedEndYears, parsedPage, pageSize, sortType, sortColumn, selectedCountry);
-        double totalPageDouble = (double) executeCount(region, parsedStartYears, parsedEndYears, selectedCountry) / pageSize;
-
-        int totalPage = (int) Math.ceil(totalPageDouble);
 
         Table table = new Table(dynamicHeader, data);
 
@@ -315,7 +251,7 @@ public class CountryController {
         modelView.setEndYears(parsedEndYears);
         modelView.setPage(parsedPage);
         modelView.setTable(table);
-        modelView.setTotalPage(totalPage);
+
         modelView.setSelectedCountry(selectedCountry);
         modelView.setRegion(regions);
 
@@ -330,11 +266,11 @@ public class CountryController {
             model.addAttribute("nextSortType", "");
 
         } else {
-            System.err.println("null");
+
 
             model.addAttribute("nextSortType", "ASC");
         }
-        System.err.println("sortType: " + sortType);
+
         String parsedSelectedCountry = "";
         if (selectedCountry != null && !selectedCountry.isEmpty()) {
             try{

@@ -23,7 +23,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -163,7 +164,7 @@ public class Level3SubtaskBController {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = generateQuery(region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation, page, pageSize, sortType, sortColumn,viewBy);
-            System.out.println(sqlQuery);
+
 
 if(sqlQuery != null && !sqlQuery.isEmpty()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -295,7 +296,7 @@ if(sqlQuery != null && !sqlQuery.isEmpty()) {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String sqlQuery = generateQuery2(number,region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
                     minPopulation, maxPopulation, page, pageSize, sortType, sortColumn);
-            System.out.println(sqlQuery);
+
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -327,107 +328,6 @@ if(sqlQuery != null && !sqlQuery.isEmpty()) {
 
     }// data2
 
-    public static String countTotalPage(String region,String selectedString, int startingYears, int period, double minAverageChange,
-                                        double maxAverageChange, long minPopulation, long maxPopulation) {
-        StringBuilder query = new StringBuilder();
-        String selectedRegion = null;
-        String selectedId = null;
-        String selectedName = null;
-
-
-        if ("City".equals(region)) {
-            selectedRegion = "city";
-            selectedId = "city_id";
-            selectedName = "name";
-
-        } else if ("State".equals(region)) {
-            selectedRegion = "state";
-            selectedId = "state_id";
-            selectedName = "name";
-
-        }
-        else if ("Country".equals(region)) {
-            selectedRegion = "country";
-            selectedId = "country_id";
-            selectedName = "country_name";
-        }
-        else if ("Global".equals(region)) {
-            selectedRegion = "global";
-            selectedId = "global_id";
-        }
-        if (period == 0){ period = 45; }
-
-
-
-
-
-
-        int length = 44/period;
-
-        int j = 0;
-        if(length != 0 ){
-        query.append("select count(*) from (With");
-        for ( int i = 0 ; i<length; i ++){
-            query.append(" period").append(i)
-                    .append(" as (")
-                    .append(" select Min(t.year) as startYear,Max(t.year) as endYear,")
-                    .append(" Round(Cast(AVG(t.average_temp) as numeric),2) as AvgTemp,")
-                    .append(" Round(CAST(AVG(p.number) as numeric),0) as Avgpop")
-                    .append(" from temperature t ")
-                    .append(" join ").append(selectedRegion)
-                    .append(" c1 on c1.id = t.").append(selectedId)
-                    .append(" join population p on p.year = t.year")
-                    .append(" where c1.")
-                    .append("country".equals(selectedRegion)?"country_name":"name")
-                    .append(" = '"+selectedString+"' and t.year between "+ (startingYears+i*period)+" and "+(startingYears+period+i*period))
-                    .append(" ),");
-            j++;}
-
-        query.append(" result0 as (");
-        for (int i= 1 ; i <j;i++){
-            query.append(" select * from period"+i)
-                    .append(i<(j-1)&& (j!=2)?" union all":"");
-        }
-        query.append(")")
-                .append(" select * from period0")
-                .append(" union all (")
-                .append(" select *")
-                .append(" from result0 r")
-                .append(" order by ABS((r.AvgTemp -(select AvgTemp from period0))) asc ))");}
-
-
-
-
-
-
-        return query.toString();
-
-    }
-
-    public int executeCount(String region,String selectedString, int startingYears, int period, double minAverageChange,
-                            double maxAverageChange, long minPopulation, long maxPopulation) {
-        int result = 0;
-        try (java.sql.Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sqlQuery = countTotalPage(region,selectedString, startingYears, period, minAverageChange, maxAverageChange,
-                    minPopulation, maxPopulation);
-//            System.out.println(sqlQuery);
-            if(sqlQuery != null && !sqlQuery.isEmpty()){
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    // Fetch the result as a String
-                    result = resultSet.getInt(1);
-                }
-            }
-
-        }} catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-
-    }
 
     private Region findSelectedRegion(ArrayList<Region> regions) {
         for (Region region : regions) {
@@ -524,7 +424,7 @@ if(sqlQuery != null && !sqlQuery.isEmpty()) {
         int pageSize = 10;
         int parsedNumber = 0;
         String parsedViewBy = null;
-        System.out.println(number);
+
         if(viewBy != null) {
             try { parsedViewBy = viewBy.toLowerCase();
 
@@ -540,7 +440,7 @@ if(sqlQuery != null && !sqlQuery.isEmpty()) {
                 e.printStackTrace();
             }
         }
-        System.out.println(parsedNumber);
+
 
         if (yearPeriod != null && !yearPeriod.isEmpty()) {
             try {
@@ -602,15 +502,23 @@ if(sqlQuery != null && !sqlQuery.isEmpty()) {
 
         if (startingYears != null && !startingYears.isEmpty()) {
             try {
-                parsedStartingYears = Integer.parseInt(startingYears);
+                // Use a regular expression to find the first integer in the string
+                Pattern pattern = Pattern.compile("\\d+");
+                Matcher matcher = pattern.matcher(startingYears);
+
+                if (matcher.find()) {
+                    // Parse the first integer found
+                    parsedStartingYears = Integer.parseInt(matcher.group());
+                } else {
+                    // Handle the case where no integers are found
+                    System.out.println("No integers found in the input string.");
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
 
-        double totalPageDouble = (double) executeCount(region, selectedString, parsedStartingYears, parsedYearPeriod,
-                parsedMinAverageChange, parsedMaxAverageChange, parsedMinPopulation, parsedMaxPopulation) / pageSize;
-        int totalPage = (int) Math.ceil(totalPageDouble);
+
 
         if (region == null) {
             region = "";
@@ -663,7 +571,7 @@ if ("temp".equals(parsedViewBy)){
         modelView.setMinPopulation(parsedMinPopulation);
         modelView.setMaxPopulation(parsedMaxPopulation);
         modelView.setPage(parsedPage);
-        modelView.setTotalPage(totalPage);
+
         modelView.setTable(tables);
 
         if ("ASC".equals(sortType)) {

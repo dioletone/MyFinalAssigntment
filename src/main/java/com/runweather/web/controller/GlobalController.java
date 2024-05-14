@@ -113,50 +113,7 @@ public class GlobalController {
         return resultArray;
 
     }
-    public static String countTotalPage( int startYears, int endYears) {
-StringBuilder query = new StringBuilder();
-        query.append("with startYears as ( select c.country_name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp")
-                .append(" from temperature t ")
-                .append("   join public.global c on c.id = t.global_id")
-                .append("   join population p on c.id = p.country_id and t.year = p.year")
-                .append("   where t.year =").append(startYears)
-                .append(" group by c.country_name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp")
-                .append("),")
-                .append(" endYears as ( select c.country_name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp")
-                .append(" from temperature t ")
-                .append("   join public.global c on c.id = t.global_id")
-                .append("   join population p on c.id = p.country_id and t.year = p.year")
-                .append("   where t.year=").append(endYears)
-                .append(" group by c.country_name, t.year, p.number, t.maximum_temp, t.minimum_temp, t.average_temp")
-                .append(")")
-                .append(" select COUNT(*) ")
-                .append(" from startYears s")
-                .append(" join endYears e on s.country_name = e.country_name");
 
-return query.toString();
-
-    }
-    public int executeCount(int startYears, int endYears) {
-        int result = 0;
-        try (java.sql.Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sqlQuery = countTotalPage( startYears, endYears);
-System.out.println(sqlQuery);
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    // Fetch the result as a String
-                    result = resultSet.getInt(1);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-
-    }
 
 
 
@@ -185,7 +142,7 @@ System.out.println(sqlQuery);
         if (startYears != null && !startYears.isEmpty()) {
             try {
                 parsedStartYears = Integer.parseInt(startYears);
-                System.out.println(parsedStartYears);
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -202,9 +159,6 @@ System.out.println(sqlQuery);
 
 
         String[][] data = executeQuery(parsedStartYears, parsedEndYears, parsedPage, pageSize, sortType, sortColumn);
-        double totalPageDouble = (double) executeCount( parsedStartYears, parsedEndYears) / pageSize;
-
-        int totalPage = (int) Math.ceil(totalPageDouble);
 
         Table table = new Table(dynamicHeader, data);
 
@@ -214,7 +168,7 @@ System.out.println(sqlQuery);
         modelView.setEndYears(parsedEndYears);
         modelView.setPage(parsedPage);
         modelView.setTable(table);
-        modelView.setTotalPage(totalPage);
+
 
         if ("ASC".equals(sortType)) {
             System.err.println("ASC");
@@ -226,11 +180,11 @@ System.out.println(sqlQuery);
             model.addAttribute("nextSortType", "");
 
         } else {
-            System.err.println("null");
+
 
             model.addAttribute("nextSortType", "ASC");
         }
-        System.err.println("sortType: " + sortType);
+
 
         modelView.setSortColumn((sortColumn != null && !sortColumn.isEmpty()) ? sortColumn : "");
         modelView.setSortType((sortType != null && !sortType.isEmpty()) ? sortType : "");
@@ -271,9 +225,7 @@ System.out.println(sqlQuery);
 
 
             String[][] data = executeQuery(parsedStartYears, parsedEndYears, parsedPage, pageSize, sortType, sortColumn);
-            double totalPageDouble = (double) executeCount( parsedStartYears, parsedEndYears) / pageSize;
 
-            int totalPage = (int) Math.ceil(totalPageDouble);
 
             Table table = new Table(dynamicHeader, data);
 
@@ -283,7 +235,7 @@ System.out.println(sqlQuery);
             modelView.setEndYears(parsedEndYears);
             modelView.setPage(parsedPage);
             modelView.setTable(table);
-            modelView.setTotalPage(totalPage);
+
 
             if ("ASC".equals(sortType)) {
                 System.err.println("ASC");
@@ -295,11 +247,11 @@ System.out.println(sqlQuery);
                 model.addAttribute("nextSortType", "");
 
             } else {
-                System.err.println("null");
+
 
                 model.addAttribute("nextSortType", "ASC");
             }
-            System.err.println("sortType: " + sortType);
+
 
             modelView.setSortColumn((sortColumn != null && !sortColumn.isEmpty()) ? sortColumn : "");
             modelView.setSortType((sortType != null && !sortType.isEmpty()) ? sortType : "");
