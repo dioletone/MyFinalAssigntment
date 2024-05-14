@@ -121,6 +121,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+var selectedCountry = '';
 
+function updateUrl() {
+    selectedCountry = document.getElementById("selectedCountry").value;
+}
+
+function setRegion(region) {
+    var url = '/level3SubtaskA?region=' + region + '&selectedCountry=' + encodeURIComponent(selectedCountry);
+    window.location.href = url;
+}
 
 
