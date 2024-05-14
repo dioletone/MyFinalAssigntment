@@ -126,14 +126,20 @@
         <p>Filter</p>
         <div class="input">
             <div class="nav-item dropdown">
+                <div class="input">
+                    <label for="selectedCountry">Selected A Country</label>
+                    <select id="selectedCountry" name="selectedCountry" onchange="updateUrl()">
+                        <option th:each="country : ${countries}" th:value="${country.name}" th:text="${country.name}" th:selected="${selectedCountry.equals(country.name)}"></option>
+                    </select>
+                </div>
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Region
                 </a>
                 <ul class="dropdown-menu" style="width: fit-content !important;">
-                    <li><a class="dropdown-item" href="/level3SubtaskA?region=Country">Country</a></li>
-                    <li><a class="dropdown-item" href="/level3SubtaskA?region=City">City</a></li>
-                    <li><a class="dropdown-item" href="/level3SubtaskA?region=State">State</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="setRegion('City')">City</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="setRegion('State')">State</a></li>
                 </ul>
+
             </div>
 
         </div>
@@ -151,7 +157,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Features List</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form th:action="@{/level3SubtaskA}" th:method="get">
+                        <form th:action="@{/level3SubtaskA(selectedCountry=${selectedCountry})}" th:method="get">
                             <div class="modal-body">
                                 <div class="box-scroll">
                                     <h3 th:text="${selectedRegion.name}"></h3>
@@ -162,7 +168,10 @@
                                                 <select id="region" name="region">
                                                     <option hidden="hidden" th:each="region : ${modelView.regions}" th:value="${region.name}" th:if="${!region.name.equals('Global')}" th:text="${region.name}" th:selected="${region.selected}" th:href="@{/level3SubtaskA(region=${selectedRegion})}"></option>
                                                 </select>
+                                                <input type="hidden" name="selectedCountry" th:value="${selectedCountry}">
+
                                             </div>
+
                                         </li>
 
 
@@ -183,15 +192,15 @@
 
                                                     </ul>
                                                     <ul class="dropdown-menu"  th:if="${selectedRegion.name.equals('City')}">
-                                                        <li th:each="city : ${cities}">
-                                                            <input type="checkbox" th:id="'city_' + ${city.id}" name="selectedString" th:value="${city.name}" th:checked="${selectedList.contains(city.name)}">
-                                                            <label th:for="'city_' + ${city.id}" th:text="${city.name}"></label><br>
+                                                        <li th:each="city : ${RegionList}">
+                                                            <input type="checkbox" th:id="'city_' + ${city}" name="selectedString" th:value="${city}" th:checked="${selectedList.contains(city)}">
+                                                            <label th:for="'city_' + ${city}" th:text="${city}"></label><br>
                                                         </li>
                                                     </ul>
                                                     <ul class="dropdown-menu" th:if="${selectedRegion.name.equals('State')}">
-                                                        <li th:each="state : ${states}">
-                                                            <input type="checkbox" th:id="'state_' + ${state.id}" name="selectedString" th:value="${state.name}" th:checked="${selectedList.contains(state.name)}">
-                                                            <label th:for="'state_' + ${state.id}" th:text="${state.name}"></label><br>
+                                                        <li th:each="state : ${RegionList}">
+                                                            <input type="checkbox" th:id="'state_' + ${state}" name="selectedString" th:value="${state}" th:checked="${selectedList.contains(state)}">
+                                                            <label th:for="'state_' + ${state}" th:text="${state}"></label><br>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -368,6 +377,7 @@
         var url = '/level3SubtaskA' + path
         window.location.href = url;
     }
+
 </script>
 
 </body>
