@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Analysis Platform - Mission Statement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/style.css}" rel="stylesheet">
+    <style>
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .flex-item {
+            width: fit-content;
+            height: 300px;
+            background-color: lightblue;
+            border: 1px solid black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-direction: column;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark text-bg-secondary" aria-label="Offcanvas navbar large">
+        <img th:src="@{/sun.png}" alt="Bee Icon">
+        <div class="container-fluid">
+            <a href="/">
+                <img th:src="@{/cloud.png}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-secondary" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/mission">Mission Statement</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                High-level Data
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/subtaskA/global">SubtaskA-Global</a></li>
+                                <li><a class="dropdown-item" href="/subtaskA/countries">SubtaskB-Country</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Deep Data
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/level3SubtaskA">SingleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskA/multiple">MultipleRegion</a></li>
+                                <li><a class="dropdown-item" href="/level3SubtaskB?region=Country">SubtaskB</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <div class="row" style="height: fit-content" >
+            <div class="col-lg-8 mx-auto">
+                <h1 class="text-center">Our Mission Statement</h1>
+                <p>Create a comprehensive web application enabling governments, scientists, and the public to delve into the intricate patterns of ocean and land temperature changes spanning a significant 260-year timeframe. Through this platform, users will access a wealth of statistical insights and calculated data, meticulously compiled from diverse countries. With a user-centric approach, the application will cater to a wide audience, offering both simplified high-level concepts and detailed analytical tools for those seeking deeper insights. Central to its purpose is the identification and exploration of trends across varying temporal and geographical dimensions, fostering a deeper understanding of climate dynamics.</p>
+                <hr>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Grids -->
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="green-grid" onclick="changeTextColor('green')">
+                <h3>Green Level</h3>
+                <p>Focusing is on crafting an engaging user experience through two primary sub-tasks. Firstly, the landing page serves as the gateway to the website, strategically designed to captivate users' attention. Here, dynamic presentation of key information, such as the range of available data years and corresponding global statistics, ensures relevance and immediacy. Additionally, the landing page calculates and displays the total data coverage period, fostering user understanding and trust. Secondly, the mission statement articulates the website's overarching objectives and societal relevance, offering insights into its utility and potential impact. By addressing social challenges related to climate change and introducing targeted personas and team members, Level 1 aims to create a compelling narrative that resonates with users, setting the stage for further exploration and engagement.</p>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="orange-grid" onclick="changeTextColor('orange')">
+                <h3>Orange Level</h3>
+                <p>Focusing is on providing users with a shallow yet insightful glimpse into climate change and population dynamics across various geographic levels. This involves two primary sub-tasks, each addressing specific challenges in UX/UI and ERM design.
+
+                    Sub-Task A delves into presenting focused views of temperature and population changes by country or globally. Users can select their preferred view—either by country or the world—and specify the start and end years for analysis. The website dynamically computes and displays the change in average temperature and population over the selected period, leveraging SQL queries to retrieve data from the database. Users can opt for either raw or proportional values to represent temperature and population changes, facilitating data interpretation. Furthermore, users can sort the data by average temperature or population when exploring world regions, with sorting operations executed through SQL queries to ensure efficient and accurate results.
+
+                    This level aims to offer users a convenient and informative way to explore climate and population trends at a macroscopic level, setting the stage for deeper analysis in subsequent levels.
+                    Sub-Task B focuses on providing users with a detailed view of temperature changes by city or state within a selected country. Users can specify their country of interest and choose to view temperature data for either cities or states. They can then select the start and end years for analysis, along with a statistic based on average, minimum, or maximum temperature.
+
+                    The website computes and displays the temperature change between the selected years for all cities or states within the chosen country, using SQL queries to fetch data from the database. Temperature changes can be presented in raw values or proportional values, facilitating data interpretation. Additionally, the website ranks cities or states based on the chosen statistic, displaying the ranking from largest to smallest change in temperature.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="red-grid" onclick="changeTextColor('red')">
+                <h3>Red Level</h3>
+                <p>Sub-Task A involves identifying temperature changes over specified periods. Users can select either a single region or multiple regions and define periods by starting year, length (in years), and geographic scope (global, country, state, or city). For a single region, the system computes the average temperature over the selected period. In the case of multiple periods within a single region, average temperatures are calculated for each period, and rankings are provided based on these averages. Similarly, for multiple regions and periods, average temperatures are determined and ranked accordingly. Additionally, users have the option to filter results based on specified ranges of average temperature and population for countries.
+                    Sub-Task B,  users can explore periods with similar temperatures and populations by selecting a period defined by starting year, length (in years), and geographic region (country, state, or city). They specify a positive integer (<x>) to indicate the number of similar periods they want to view. The system calculates similarity based on user-selected properties, ensuring consistency in comparison by maintaining the same geographic level granularity. Similarity can be assessed based on average temperature alone, population alone (for countries), or both average temperature and population (for countries). It quantifies similarity as the average value of either average temperatures or population for single-property comparisons and as the average value of similarity for combined comparisons. The system then presents the <x> most similar periods, excluding the selected period, showcasing regions, start years, and similarity values. These periods are sorted from the most similar to the least similar. For example, if a user selects a period starting in 1900 with a duration of 10 years for the region 'Australia' and specifies a desire to view the 5 most similar periods based on average temperature alone, the system computes the similarity for all countries (including Australia) over the specified length of 10 years. Then, it displays the top 5 most similar regions in descending order of similarity.
+                </p>>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h2 style="margin-bottom: 15px; font-family: 'Noto Sans Myanmar'; font-weight: bolder; color: burlywood">Personas</h2>
+        <div class="flex-container1">
+            <div class="flex-item" th:each="persona : ${personas}">
+                <h3 th:text="${persona.name}"></h3><br>
+                <h5 style="color: salmon">Background</h5>
+                <p th:text="${persona.background}"></p><br>
+                <h5 style="color: salmon">Goals</h5>
+                <p th:text="${persona.goals}"></p><br>
+                <h5 style="color: salmon">Needs</h5>
+                <p th:text="${persona.needs}"> Needs</p><br>
+                <h5 style="color: salmon">Skills and Experiences</h5>
+                <p th:text="${persona.skillsAndExperiences}"></p><br>
+                <h5 style="color: salmon">Frustration</h5>
+                <p th:text="${persona.frustration}"></p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <hr>
+    <div class ="row">
+        <h1 style="font-weight: bold; color: rebeccapurple"> Author</h1>
+        <div class="flex-item" th:each="student : ${students}" >
+            <h4 th:text="${student.name}"></h4>
+            <p>Student Id :<span th:text="${student.sid}"></span></p>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; 2024 Climate Analysis Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JavaScript Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
