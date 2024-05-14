@@ -252,6 +252,86 @@ public class Level3SubtaskAController {
     }
 
 
+    public static String generateQuery2(String region,String selectedCountry) {
+        String selectedRegion = null;
+        String selectedId = null;
+        String selectedName = null;
+
+
+        if ("City".equals(region)) {
+            selectedRegion = "city";
+            selectedId = "city_id";
+            selectedName = "name";
+
+        } else if ("State".equals(region)) {
+            selectedRegion = "state";
+            selectedId = "state_id";
+            selectedName = "name";
+
+        }
+        else if ("Country".equals(region)) {
+            selectedRegion = "country";
+            selectedId = "country_id";
+            selectedName = "country_name";
+        }
+        else if ("Global".equals(region)) {
+            selectedRegion = "global";
+            selectedId = "global_id";
+        }
+
+
+
+
+
+
+        StringBuilder query = new StringBuilder();
+        query.append("Select c1.name ")
+                .append(" from " +selectedRegion).append(" c1")
+                .append(" join country c" )
+                .append(" on c1.country_id = c.id")
+                .append(" where c.country_name = '" + selectedCountry +"'");
+
+        //query.append(" LIMIT ").append(pageSize).append(" OFFSET ").append((page - 1) * pageSize);
+
+        return query.toString();
+    }
+
+    public ArrayList<String> executeQuery2(String region, String selectedCountry) {
+        ArrayList<String> resultRows = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String sqlQuery = generateQuery2(region, selectedCountry);
+
+            if (sqlQuery != null && !sqlQuery.isEmpty()) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+                     ResultSet resultSet = preparedStatement.executeQuery()) {
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int columnCount = metaData.getColumnCount();
+
+                    while (resultSet.next()) { // Loop through all rows
+                        for (int i = 1; i <= columnCount; i++) {
+                            // Retrieve data from each column and add it to the resultRows list
+                            String columnValue = resultSet.getString(i);
+                            resultRows.add(columnValue);
+                        }
+                    }
+
+                    if (resultRows.isEmpty()) {
+                    }
+                }
+            } else {
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultRows;
+    }
+
+
+
+
+
     private Region findSelectedRegion(ArrayList<Region> regions) {
         for (Region region : regions) {
             if (region.getSelected()) {
@@ -280,6 +360,7 @@ public class Level3SubtaskAController {
 
     @GetMapping("/level3SubtaskA")
     public String listGlobal(Model model,
+                             @RequestParam(name = "selectedCountry",required = false) String selectedCountry,
                              @RequestParam(name = "selectedString",required = false) ArrayList<String> selectedString,
                              @RequestParam(name = "yearPeriod", required = false) String yearPeriod,
                              @RequestParam(name = "region", required = false) String region,
@@ -449,6 +530,15 @@ for (int i = 0 ; i< parsedStartingYears.length; i ++){
                 e.printStackTrace();
             }
         }
+  String parsedSelectedCountry = "";
+        if (selectedCountry != null && !selectedCountry.isEmpty()){
+            try{
+                parsedSelectedCountry = selectedCountry;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        ArrayList<String> RegionList = executeQuery2(region,parsedSelectedCountry);
 
 
         model.addAttribute("listYear", listYear);
@@ -459,6 +549,9 @@ for (int i = 0 ; i< parsedStartingYears.length; i ++){
         model.addAttribute("lengthData", length);
         model.addAttribute("modelView", modelView);
         model.addAttribute("selectedList", selectedList);
+        model.addAttribute("RegionList", RegionList);
+        model.addAttribute("selectedCountry", parsedSelectedCountry);
+
 
 
 
