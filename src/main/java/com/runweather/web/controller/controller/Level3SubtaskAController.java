@@ -102,9 +102,7 @@ public class Level3SubtaskAController {
                 parseSortColumn = "AvgDiff"+Integer.toString(i);
             }
         }
-        if(Integer.toString(startingYears.length).equals(sortColumn)) {
-            parseSortColumn = "rank";
-        }
+
 
 
 
@@ -183,16 +181,19 @@ public class Level3SubtaskAController {
                 .append(",AvgDiff)");
            if(i< startingYears.length-1) {query.append(",");}}
 
-           query.append(" Select r0.rname");
+           query.append(" Select ");
+            if (parseSortColumn != null && !parseSortColumn.isEmpty() && sortType != null && !sortType.isEmpty()) {
+                query.append(" ROW_NUMBER() OVER(ORDER BY r"+parseSortColumn.substring(parseSortColumn.length()-1,parseSortColumn.length())+".AvgDiff "+sortType+") AS rank"+parseSortColumn+", ");
+
+            }
+
+
+        query.append("r0.rname ,");
 
         for (int i = 0; i < startingYears.length; i++) {
-            query.append(",r").append(i).append(".AvgDiff").append(" as AvgDiff").append(i);}
-        query.append(" , ROW_NUMBER() OVER(Order by (");
-        for (int i = 0; i < startingYears.length; i++) {
-            query.append("r").append(i).append(".AvgDiff");
+            query.append("r").append(i).append(".AvgDiff").append(" as AvgDiff").append(i);
             if(i<startingYears.length-1) {query.append(",");}
         }
-        query.append(" )) as rank ");
                 query.append(" from resultData0 r0");
         for (int i = 1; i < startingYears.length; i++) {
             query.append(" join resultData").append(i).append(" r").append(i).append(" on r").append(i-1).append(".rname").append(" = r").append(i).append(".rname");}}
@@ -282,14 +283,14 @@ public class Level3SubtaskAController {
 
 
 
-
-
         StringBuilder query = new StringBuilder();
+if(selectedCountry != null && !selectedCountry.isEmpty()) {
+
         query.append("Select c1.name ")
                 .append(" from " +selectedRegion).append(" c1")
                 .append(" join country c" )
                 .append(" on c1.country_id = c.id")
-                .append(" where c.country_name = '" + selectedCountry +"'");
+                .append(" where c.country_name = '" + selectedCountry +"'");}
 
         //query.append(" LIMIT ").append(pageSize).append(" OFFSET ").append((page - 1) * pageSize);
 
@@ -304,6 +305,7 @@ public class Level3SubtaskAController {
 
             if (sqlQuery != null && !sqlQuery.isEmpty()) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
                      ResultSet resultSet = preparedStatement.executeQuery()) {
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     int columnCount = metaData.getColumnCount();
@@ -456,14 +458,30 @@ public class Level3SubtaskAController {
                 }
             }
         }
-        String[] dynamicHeader = new String[lengthOfYears+2];
+        String[] dynamicHeader = new String[lengthOfYears+1];
+        if (sortType != null && !sortType.isEmpty() && sortColumn != null && !sortColumn.isEmpty() && !sortColumn.equals("-1")) {
+            dynamicHeader = new String[lengthOfYears+2];
+            dynamicHeader[0] = "Rank";
+            dynamicHeader[1]="Name";
+            for(int i =2; i < lengthOfYears+2; i++){
+
+                dynamicHeader[i] = parsedYears[i-2] + " - " + (parsedYears[i-2]+parsedYearPeriod);
+
+            }
 
 
-        dynamicHeader[0]="Name";
-        for(int i =1; i < lengthOfYears+1; i++){
-            dynamicHeader[i] = parsedYears[i-1] + " - " + (parsedYears[i-1]+parsedYearPeriod);
+        } else {
+
+
+            dynamicHeader[0] = "Name";
+            for (int i = 1; i < lengthOfYears + 1; i++) {
+                int headerIndex = i;
+                dynamicHeader[headerIndex] = parsedYears[i - 1] + " - " + (parsedYears[i - 1] + parsedYearPeriod);
+
+            }
         }
-        dynamicHeader[lengthOfYears+1]="Rank";
+
+
 
 
 
@@ -491,11 +509,11 @@ public class Level3SubtaskAController {
 
 
         if ("ASC".equals(sortType)) {
-            System.err.println("ASC");
+
             model.addAttribute("nextSortType", "DESC");
 
         } else if ("DESC".equals(sortType)) {
-            System.err.println("DESC");
+           
 
             model.addAttribute("nextSortType", "");
 
@@ -530,7 +548,7 @@ for (int i = 0 ; i< parsedStartingYears.length; i ++){
                 e.printStackTrace();
             }
         }
-  String parsedSelectedCountry = "";
+        String parsedSelectedCountry = "";
         if (selectedCountry != null && !selectedCountry.isEmpty()){
             try{
                 parsedSelectedCountry = selectedCountry;
@@ -538,7 +556,16 @@ for (int i = 0 ; i< parsedStartingYears.length; i ++){
                 e.printStackTrace();
             }
         }
-        ArrayList<String> RegionList = executeQuery2(region,parsedSelectedCountry);
+
+        ArrayList<String> RegionList = null; // Initialize RegionList to null
+
+        try {
+            RegionList = executeQuery2(region, parsedSelectedCountry);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception, such as logging an error message or displaying a user-friendly error to the user
+        }
+
 
 
         model.addAttribute("listYear", listYear);
@@ -551,6 +578,7 @@ for (int i = 0 ; i< parsedStartingYears.length; i ++){
         model.addAttribute("selectedList", selectedList);
         model.addAttribute("RegionList", RegionList);
         model.addAttribute("selectedCountry", parsedSelectedCountry);
+        model.addAttribute("sortColumn", sortColumn);
 
 
 
