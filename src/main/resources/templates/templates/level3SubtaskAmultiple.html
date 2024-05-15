@@ -214,7 +214,7 @@
                     <th  th:each="header, headerIndex : ${table.header}"  >
                         <p th:text="${header}"></p>
                         <a
-                                th:href="@{/level3SubtaskA/multiple(region=${table.selectedRegion},yearPeriod=${modelView.yearPeriod}, startingYears=${#strings.listJoin(modelView.startingYears, ',')},minAverageChange=${modelView.minAverageChange},maxAverageChange=${modelView.maxAverageChange},minPopulation=${modelView.minPopulation},maxPopulation=${modelView.maxPopulation}, sortType=${nextSortType}, sortColumn=${(headerIndex.index)-1})}">
+                                th:href="@{/level3SubtaskA(region=${table.selectedRegion},yearPeriod=${modelView.yearPeriod}, startingYears=${#strings.listJoin(modelView.startingYears, ',')},minAverageChange=${modelView.minAverageChange},maxAverageChange=${modelView.maxAverageChange},minPopulation=${modelView.minPopulation},maxPopulation=${modelView.maxPopulation}, sortType=${nextSortType}, sortColumn=${(headerIndex.index)-1})}">
                             <svg th:if="${headerIndex.index >0}" width="16" height="17" viewBox="0 0 16 17"
                                  fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -238,7 +238,7 @@
                         </span>
                     </td>
 
-                    <td>
+
 
 
                 </tr>
